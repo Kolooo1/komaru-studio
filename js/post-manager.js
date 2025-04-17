@@ -309,7 +309,28 @@ function deletePost(postId, callback) {
     }
 }
 
+/**
+ * Получение публикации по ID
+ * @param {string} postId - ID публикации
+ * @param {Function} callback - Функция обратного вызова с публикацией
+ */
+function getPost(postId, callback) {
+    // Загрузка публикаций
+    const posts = JSON.parse(localStorage.getItem(POSTS_KEY) || '[]');
+    
+    // Поиск публикации по ID
+    const post = posts.find(p => p.id === postId);
+    
+    // Вызов callback-функции с найденной публикацией или null
+    if (typeof callback === 'function') {
+        callback(post || null);
+    }
+    
+    return post || null;
+}
+
 // Добавляем функцию в экспорт
 window.PostManager = {
-    deletePost
+    deletePost,
+    getPost
 }; 
