@@ -1,0 +1,161 @@
+/* 
+   Файл тем для портфолио команды
+   Здесь определены цвета и стили для светлой и темной темы
+*/
+
+/* Светлая тема (по умолчанию) */
+.light-theme {
+    /* Основные цвета */
+    --color-background: #ffffff;
+    --color-foreground: #18181b;  /* zinc-900 */
+    --color-foreground-muted: #52525b;  /* zinc-600 */
+    
+    /* Цвета UI */
+    --color-primary: #2563eb;  /* blue-600 */
+    --color-primary-hover: #1d4ed8;  /* blue-700 */
+    --color-primary-foreground: #ffffff;
+    
+    --color-secondary: #f4f4f5;  /* zinc-100 */
+    --color-secondary-hover: #e4e4e7;  /* zinc-200 */
+    --color-secondary-foreground: #18181b;  /* zinc-900 */
+    
+    /* Акцентные цвета */
+    --color-accent: #ec4899;  /* pink-500 */
+    --color-accent-muted: rgba(236, 72, 153, 0.1);  /* pink-500 с прозрачностью */
+    
+    /* Нейтральные цвета */
+    --color-muted: #f4f4f5;  /* zinc-100 */
+    --color-muted-light: #fafafa;  /* zinc-50 */
+    --color-hover: rgba(0, 0, 0, 0.05);
+    --color-border: #e4e4e7;  /* zinc-200 */
+    
+    /* Дополнительные цвета */
+    --color-input: #fafafa;  /* zinc-50 */
+    --color-background-transparent: rgba(255, 255, 255, 0.8);
+    
+    /* Градиенты */
+    --gradient-primary: linear-gradient(135deg, #2563eb, #4f46e5);  /* blue-600 to indigo-600 */
+    --gradient-accent: linear-gradient(135deg, #ec4899, #8b5cf6);  /* pink-500 to violet-500 */
+    
+    /* Дополнительные стили */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-color-strong: rgba(0, 0, 0, 0.12);
+    
+    /* Скруглённые углы */
+    --border-radius-card: 16px;
+}
+
+/* Темная тема */
+.dark-theme {
+    /* Основные цвета */
+    --color-background: #09090b;  /* zinc-950 */
+    --color-foreground: #fafafa;  /* zinc-50 */
+    --color-foreground-muted: #a1a1aa;  /* zinc-400 */
+    
+    /* Цвета UI */
+    --color-primary: #3b82f6;  /* blue-500 */
+    --color-primary-hover: #2563eb;  /* blue-600 */
+    --color-primary-foreground: #ffffff;
+    
+    /* Акцентные цвета */
+    --color-accent: #ec4899;  /* pink-500 */
+    --color-accent-muted: rgba(236, 72, 153, 0.15);  /* pink-500 с прозрачностью */
+    
+    --color-secondary: #27272a;  /* zinc-800 */
+    --color-secondary-hover: #3f3f46;  /* zinc-700 */
+    --color-secondary-foreground: #fafafa;  /* zinc-50 */
+    
+    /* Нейтральные цвета */
+    --color-muted: #27272a;  /* zinc-800 */
+    --color-muted-light: #18181b;  /* zinc-900 */
+    --color-hover: rgba(255, 255, 255, 0.1);
+    --color-border: #3f3f46;  /* zinc-700 */
+    
+    /* Дополнительные цвета */
+    --color-input: #18181b;  /* zinc-900 */
+    --color-background-transparent: rgba(9, 9, 11, 0.8);  /* zinc-950 с прозрачностью */
+    
+    /* Градиенты */
+    --gradient-primary: linear-gradient(135deg, #3b82f6, #6366f1);  /* blue-500 to indigo-500 */
+    --gradient-accent: linear-gradient(135deg, #ec4899, #a855f7);  /* pink-500 to purple-500 */
+    
+    /* Дополнительные стили */
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --shadow-color-strong: rgba(0, 0, 0, 0.4);
+    
+    /* Скруглённые углы */
+    --border-radius-card: 16px;
+}
+
+/* Настройки для section-title в зависимости от темы */
+.light-theme .section-title::after {
+    background: var(--gradient-primary);
+}
+
+.dark-theme .section-title::after {
+    background: var(--gradient-primary);
+}
+
+/* Дополнительные стили для элементов в темной теме */
+.dark-theme input, 
+.dark-theme textarea {
+    background-color: var(--color-input);
+    color: var(--color-foreground);
+    border-color: var(--color-border);
+}
+
+/* Анимация переключения тем */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Градиентные элементы для обеих тем */
+.hero-title {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Светящиеся элементы для темной темы */
+.dark-theme .social-link:hover {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);  /* blue-500 с тенью */
+}
+
+/* Неоновые акценты для темной темы */
+.dark-theme .btn-primary {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+}
+
+.dark-theme .btn-primary:hover {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+/* Стеклянные эффекты для header в обеих темах */
+.light-theme header.scrolled {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(228, 228, 231, 0.6);  /* zinc-200 с прозрачностью */
+}
+
+.dark-theme header.scrolled {
+    background-color: rgba(24, 24, 27, 0.8);  /* zinc-900 с прозрачностью */
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(63, 63, 70, 0.6);  /* zinc-700 с прозрачностью */
+}
+
+/* Усиленные тени для карточек проектов */
+.project-card {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dark-theme .project-card {
+    background-color: var(--color-muted);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px var(--shadow-color-strong);
+}
