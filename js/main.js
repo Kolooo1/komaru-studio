@@ -27,6 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Инициализация вступительной анимации
     initRestartSplash();
+    
+    // Инициализация логина и статуса авторизации
+    initLoginStatus();
 });
 
 /**
@@ -339,6 +342,52 @@ function initAnimations() {
     initContactForm();
     
     // Здесь могут быть другие анимации
+}
+
+/**
+ * Инициализация логина и статуса авторизации
+ */
+function initLoginStatus() {
+    // Ссылка в шапке
+    const loginStatusElement = document.getElementById('login-status');
+    // Ссылка в подвале
+    const footerLoginStatusElement = document.getElementById('footer-login-status');
+    
+    // Проверяем, авторизован ли пользователь
+    const isLoggedIn = localStorage.getItem('komaru-auth') !== null;
+    
+    // Функция обновления текста и поведения ссылки
+    const updateLoginLink = (element) => {
+        if (!element) return;
+        
+        if (isLoggedIn) {
+            // Изменяем текст на "Выйти"
+            const lang = document.documentElement.lang || 'ru';
+            let logoutText = 'Выйти';
+            
+            if (window.TranslationSystem && 
+                window.TranslationSystem.translations &&
+                window.TranslationSystem.translations['logout-link']) {
+                logoutText = window.TranslationSystem.translations['logout-link'][lang];
+            }
+            
+            element.textContent = logoutText;
+            
+            // Добавляем обработчик для выхода
+            element.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('komaru-auth');
+                window.location.reload();
+            });
+        } else {
+            // Устанавливаем ссылку на страницу логина
+            element.href = 'login.html';
+        }
+    };
+    
+    // Обновляем обе ссылки
+    updateLoginLink(loginStatusElement);
+    updateLoginLink(footerLoginStatusElement);
 }
 
 // Экспорт функций для тестирования

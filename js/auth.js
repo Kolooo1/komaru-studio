@@ -160,19 +160,26 @@ function handleLogin(e) {
  */
 function updateLoginStatus() {
     const loginStatusElement = document.getElementById('login-status');
-    if (loginStatusElement) {
+    const footerLoginStatusElement = document.getElementById('footer-login-status');
+    
+    const updateElement = (element) => {
+        if (!element) return;
+        
         if (currentUser) {
-            loginStatusElement.textContent = 'Выйти';
-            loginStatusElement.addEventListener('click', function(e) {
+            element.textContent = 'Выйти';
+            element.addEventListener('click', function(e) {
                 e.preventDefault();
                 localStorage.removeItem(AUTH_KEY);
                 window.location.reload();
             });
         } else {
-            loginStatusElement.textContent = 'Войти';
-            loginStatusElement.href = 'login.html';
+            element.textContent = 'Войти';
+            element.href = 'login.html';
         }
-    }
+    };
+    
+    updateElement(loginStatusElement);
+    updateElement(footerLoginStatusElement);
 }
 
 /**

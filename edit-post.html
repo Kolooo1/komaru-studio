@@ -137,7 +137,11 @@
                 <div class="footer-links">
                     <ul>
                         <li><a href="index.html" data-lang="nav-home">Главная</a></li>
+                        <li><a href="index.html#about" data-lang="nav-about">О нас</a></li>
+                        <li><a href="index.html#projects" data-lang="nav-projects">Проекты</a></li>
+                        <li><a href="index.html#contact" data-lang="nav-contact">Контакт</a></li>
                         <li><a href="posts.html" data-lang="nav-posts">Публикации</a></li>
+                        <li><a href="#" id="footer-login-status" data-lang="login-link">Войти</a></li>
                     </ul>
                 </div>
                 <div class="footer-copy">
@@ -171,16 +175,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Установка текущего года
-            document.getElementById('current-year').textContent = new Date().getFullYear();
+        document.getElementById('current-year').textContent = new Date().getFullYear();
             
             // Инициализация переводов если они доступны
             if (window.TranslationSystem && typeof window.TranslationSystem.initLanguage === 'function') {
                 window.TranslationSystem.initLanguage();
             }
-            
-            // Инициализация темы
-            const themeToggleBtn = document.getElementById('theme-toggle-btn');
-            if (themeToggleBtn) {
+        
+        // Инициализация темы
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        if (themeToggleBtn) {
                 themeToggleBtn.addEventListener('click', function() {
                     if (document.documentElement.classList.contains('light-theme')) {
                         document.documentElement.classList.remove('light-theme');
@@ -191,42 +195,42 @@
                         document.documentElement.classList.add('light-theme');
                         localStorage.setItem('portfolio-theme', 'light');
                     }
-                });
-            }
-            
-            // Инициализация функционала удаления
-            const deleteBtn = document.getElementById('delete-post-btn');
-            const confirmModal = document.getElementById('delete-confirm-modal');
-            const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
-            const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
-            const postIdInput = document.getElementById('post-id');
-            
-            // Показываем кнопку удаления только при редактировании существующей публикации
-            if (postIdInput && postIdInput.value) {
-                deleteBtn.style.display = 'inline-flex';
-            }
-            
-            // Обработчик открытия модального окна подтверждения
+            });
+        }
+
+        // Инициализация функционала удаления
+        const deleteBtn = document.getElementById('delete-post-btn');
+        const confirmModal = document.getElementById('delete-confirm-modal');
+        const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+        const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+        const postIdInput = document.getElementById('post-id');
+        
+        // Показываем кнопку удаления только при редактировании существующей публикации
+        if (postIdInput && postIdInput.value) {
+            deleteBtn.style.display = 'inline-flex';
+        }
+        
+        // Обработчик открытия модального окна подтверждения
             if (deleteBtn) {
-                deleteBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    confirmModal.style.display = 'flex';
-                });
+        deleteBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            confirmModal.style.display = 'flex';
+        });
             }
-            
-            // Обработчик закрытия модального окна
+        
+        // Обработчик закрытия модального окна
             if (cancelDeleteBtn) {
-                cancelDeleteBtn.addEventListener('click', function() {
-                    confirmModal.style.display = 'none';
-                });
+        cancelDeleteBtn.addEventListener('click', function() {
+            confirmModal.style.display = 'none';
+        });
             }
-            
-            // Обработчик подтверждения удаления
+        
+        // Обработчик подтверждения удаления
             if (confirmDeleteBtn) {
-                confirmDeleteBtn.addEventListener('click', function() {
-                    const postId = postIdInput.value;
-                    if (postId && window.PostManager) {
-                        window.PostManager.deletePost(postId, function() {
+        confirmDeleteBtn.addEventListener('click', function() {
+            const postId = postIdInput.value;
+            if (postId && window.PostManager) {
+                window.PostManager.deletePost(postId, function() {
                             // Используем перевод для сообщения
                             const lang = document.documentElement.lang || 'ru';
                             let successMessage = 'Публикация успешно удалена';
@@ -238,10 +242,10 @@
                             }
                             
                             window.Notifications.redirect(successMessage, 'success', 'posts.html');
-                        });
-                    }
-                    confirmModal.style.display = 'none';
                 });
+            }
+            confirmModal.style.display = 'none';
+        });
             }
             
             // Дополнительная логика страницы редактора
