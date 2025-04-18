@@ -138,19 +138,25 @@
                     <div class="team-members">
                         <!-- Здесь можно добавить карточки членов команды -->
                         <div class="team-member fade-in-section">
-                            <div class="member-photo-placeholder"></div>
-                            <h3 data-lang="member-1-name">Имя Участника 1</h3>
-                            <p data-lang="member-1-role">Должность</p>
+                            <div class="member-photo-placeholder">
+                                <img src="assets/images/1.jpg" alt="Участник 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-full);">
+                            </div>
+                            <h3 data-lang="member-1-name">Артём Ударцев</h3>
+                            <p data-lang="member-1-role">Главный разработчик</p>
                         </div>
                         <div class="team-member fade-in-section">
-                            <div class="member-photo-placeholder"></div>
-                            <h3 data-lang="member-2-name">Имя Участника 2</h3>
-                            <p data-lang="member-2-role">Должность</p>
+                            <div class="member-photo-placeholder">
+                                <img src="assets/images/2.jpg" alt="Участник 2" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-full);">
+                            </div>
+                            <h3 data-lang="member-2-name">Гагик Зарян</h3>
+                            <p data-lang="member-2-role">Главный строитель</p>
                         </div>
                         <div class="team-member fade-in-section">
-                            <div class="member-photo-placeholder"></div>
-                            <h3 data-lang="member-3-name">Имя Участника 3</h3>
-                            <p data-lang="member-3-role">Должность</p>
+                            <div class="member-photo-placeholder">
+                                <img src="assets/images/3.jpg" alt="Участник 3" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-full);">
+                            </div>
+                            <h3 data-lang="member-3-name">Андрей Толмачев</h3>
+                            <p data-lang="member-3-role">Главный дизайнер</p>
                         </div>
                         <!-- Чтобы добавить нового участника, скопируйте блок div с классом team-member и измените атрибуты data-lang -->
                     </div>
@@ -202,20 +208,32 @@
                     <!-- Проект 2 -->
                     <div class="project-card fade-in-section">
                         <div class="project-image">
-                            <div class="image-placeholder">
-                                <span data-lang="project-img-placeholder">Изображение проекта</span>
-                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60">
+                              <style>
+                                .text { font-family: 'Arial', sans-serif; font-weight: bold; }
+                                .rust { fill: #d14d41; }
+                                .learn { fill: #333333; }
+                                :root.dark-theme .learn { fill: #eeeeee; }
+                                .gear { fill: #d14d41; }
+                              </style>
+                              <g>
+                                <text x="10" y="40" class="text rust" font-size="32">Rust</text>
+                                <text x="95" y="40" class="text learn" font-size="32">Learn</text>
+                                <path class="gear" d="M180,30 C180,23.4 174.6,18 168,18 C161.4,18 156,23.4 156,30 C156,36.6 161.4,42 168,42 C174.6,42 180,36.6 180,30 Z M168,36 C164.7,36 162,33.3 162,30 C162,26.7 164.7,24 168,24 C171.3,24 174,26.7 174,30 C174,33.3 171.3,36 168,36 Z"></path>
+                                <path class="gear" d="M192,30 L188,30 C187.8,31.8 187.2,33.6 186.3,35.1 L189.3,38.1 L184.2,43.2 L181.2,40.2 C179.7,41.1 177.9,41.7 176.1,41.9 L176.1,45.9 L168.9,45.9 L168.9,41.9 C167.1,41.7 165.3,41.1 163.8,40.2 L160.8,43.2 L155.7,38.1 L158.7,35.1 C157.8,33.6 157.2,31.8 157,30 L153,30 L153,22.8 L157,22.8 C157.2,21 157.8,19.2 158.7,17.7 L155.7,14.7 L160.8,9.6 L163.8,12.6 C165.3,11.7 167.1,11.1 168.9,10.9 L168.9,6.9 L176.1,6.9 L176.1,10.9 C177.9,11.1 179.7,11.7 181.2,12.6 L184.2,9.6 L189.3,14.7 L186.3,17.7 C187.2,19.2 187.8,21 188,22.8 L192,22.8 L192,30 Z"></path>
+                              </g>
+                            </svg>
                         </div>
                         <div class="project-info">
-                            <h3 data-lang="project-2-title">Название Проекта 2</h3>
-                            <p data-lang="project-2-description">Краткое описание проекта. Расскажите о целях, технологиях и результатах.</p>
+                            <h3 data-lang="project-2-title">RustLearn: Учебник по Rust</h3>
+                            <p data-lang="project-2-description">Интерактивный учебник по языку программирования Rust. Полное руководство от основ до продвинутых концепций с практическими примерами и упражнениями.</p>
                             <div class="project-tags">
+                                <span class="project-tag">Rust</span>
                                 <span class="project-tag">HTML/CSS</span>
                                 <span class="project-tag">JavaScript</span>
-                                <span class="project-tag">Rust</span>
                             </div>
                             <div class="project-links">
-                                <a href="#" class="btn btn-small" data-lang="project-live-link">Сайт</a>
+                                <a href="#" class="btn btn-small" data-lang="project-live-link">Открыть учебник</a>
                                 <a href="#" class="btn btn-small btn-secondary" data-lang="project-code-link">Код</a>
                             </div>
                         </div>
