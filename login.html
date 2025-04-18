@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход в систему | Komaru Studio</title>
+    <title data-lang="login-title">Вход в систему | Komaru Studio</title>
     <meta name="description" content="Вход в систему публикации постов Komaru Studio">
     <!-- Иконка сайта -->
     <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
@@ -31,16 +31,16 @@
         <nav class="container">
             <div class="logo">
                 <a href="index.html" class="logo-link">
-                    <span>Komaru Studio</span>
+                    <span data-lang="logo-full">Komaru Studio</span>
                 </a>
             </div>
             <div class="nav-controls">
                 <ul class="nav-links">
-                    <li><a href="index.html">Главная</a></li>
-                    <li><a href="index.html#about">О нас</a></li>
-                    <li><a href="index.html#projects">Проекты</a></li>
-                    <li><a href="index.html#contact">Контакт</a></li>
-                    <li><a href="posts.html">Публикации</a></li>
+                    <li><a href="index.html" data-lang="nav-home">Главная</a></li>
+                    <li><a href="index.html#about" data-lang="nav-about">О нас</a></li>
+                    <li><a href="index.html#projects" data-lang="nav-projects">Проекты</a></li>
+                    <li><a href="index.html#contact" data-lang="nav-contact">Контакт</a></li>
+                    <li><a href="posts.html" data-lang="nav-posts">Публикации</a></li>
                 </ul>
                 <div class="theme-toggle">
                     <button id="theme-toggle-btn" aria-label="Переключить тему">
@@ -126,10 +126,10 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <span>KS</span>
+                    <span data-lang="logo">KS</span>
                 </div>
                 <div class="footer-copy">
-                    <p>© <span id="current-year">2024</span> Komaru Studio. Все права защищены.</p>
+                    <p>© <span id="current-year">2024</span> <span data-lang="footer-copyright">Komaru Studio. Все права защищены.</span></p>
                 </div>
             </div>
         </div>
@@ -142,13 +142,33 @@
         // Устанавливаем текущий год
         document.getElementById('current-year').textContent = new Date().getFullYear();
         
-        // Инициализация переводов
-        document.addEventListener('DOMContentLoaded', function() {
-            // Инициализируем переводы если они доступны
-            if (window.TranslationSystem && typeof window.TranslationSystem.initLanguage === 'function') {
-                window.TranslationSystem.initLanguage();
+        // Переключение темы (не трогаем оригинальную логику авторизации из auth.js)
+        document.getElementById('theme-toggle-btn').addEventListener('click', function() {
+            // Упрощенная версия - проверяем наличие класса light-theme
+            if (document.documentElement.classList.contains('light-theme')) {
+                document.documentElement.classList.remove('light-theme');
+                document.documentElement.classList.add('dark-theme');
+                localStorage.setItem('portfolio-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark-theme');
+                document.documentElement.classList.add('light-theme');
+                localStorage.setItem('portfolio-theme', 'light');
             }
-            
+        });
+        
+        // Мобильное меню
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (mobileMenuBtn && navLinks) {
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('nav-active');
+                mobileMenuBtn.classList.toggle('menu-open');
+            });
+        }
+        
+        // Принудительно отобразить блок входа сразу после загрузки страницы
+        window.addEventListener('DOMContentLoaded', function() {
             // Гарантируем видимость блока входа
             const mainContent = document.querySelector('.main-content');
             const authSection = document.querySelector('.auth-section');
@@ -169,6 +189,70 @@
                 authContainer.style.display = 'block';
                 authContainer.style.visibility = 'visible';
                 authContainer.style.opacity = '1';
+            }
+            
+            // Инициализация системы переводов если она доступна
+            if (window.TranslationSystem && typeof window.TranslationSystem.initLanguage === 'function') {
+                window.TranslationSystem.initLanguage();
+            }
+            
+            // Инициализация переключателя языков
+            const langToggleBtn = document.getElementById('lang-toggle-btn');
+            const langOptions = document.querySelectorAll('.lang-option');
+            
+            if (langToggleBtn) {
+                // Обработчик клика по кнопке переключения языка
+                langToggleBtn.addEventListener('click', function() {
+                    const langDropdown = document.querySelector('.lang-dropdown');
+                    langDropdown.classList.toggle('active');
+                });
+                
+                // Закрытие выпадающего списка при клике вне его
+                document.addEventListener('click', function(e) {
+                    const langDropdown = document.querySelector('.lang-dropdown');
+                    if (!e.target.closest('.lang-dropdown') && langDropdown && langDropdown.classList.contains('active')) {
+                        langDropdown.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Обработчики для опций выбора языка
+            if (langOptions.length > 0) {
+                const savedLang = localStorage.getItem('portfolio-lang') || 'ru';
+                
+                langOptions.forEach(option => {
+                    // Помечаем текущий язык как активный
+                    if (option.getAttribute('data-lang-code') === savedLang) {
+                        option.classList.add('active');
+                    }
+                    
+                    // Обработчик клика по опции языка
+                    option.addEventListener('click', function() {
+                        const langCode = this.getAttribute('data-lang-code');
+                        if (langCode && window.TranslationSystem) {
+                            // Обновляем язык
+                            window.TranslationSystem.updateLanguage(langCode);
+                            
+                            // Сохраняем выбранный язык
+                            localStorage.setItem('portfolio-lang', langCode);
+                            
+                            // Обновляем HTML атрибут
+                            document.documentElement.setAttribute('lang', langCode);
+                            
+                            // Обновляем активную опцию
+                            document.querySelectorAll('.lang-option').forEach(opt => {
+                                opt.classList.remove('active');
+                            });
+                            this.classList.add('active');
+                            
+                            // Закрываем выпадающий список
+                            const langDropdown = document.querySelector('.lang-dropdown');
+                            if (langDropdown) {
+                                langDropdown.classList.remove('active');
+                            }
+                        }
+                    });
+                });
             }
             
             // Настройка формы входа
@@ -215,27 +299,6 @@
                         setTimeout(() => {
                             window.location.href = 'posts.html';
                         }, 1000);
-                    } else if (username === 'author1' && password === 'author123') {
-                        // Автор 1
-                        const successMessage = window.TranslationSystem && 
-                            window.TranslationSystem.translations && 
-                            window.TranslationSystem.translations['login-success'] ? 
-                            window.TranslationSystem.translations['login-success'][document.documentElement.lang || 'ru'] : 
-                            'Успешный вход. Перенаправление...';
-                        
-                        messageElement.textContent = successMessage;
-                        messageElement.className = 'auth-message success';
-                        messageElement.style.display = 'block';
-                        
-                        localStorage.setItem('komaru-auth', JSON.stringify({
-                            username: 'author1',
-                            role: 'author',
-                            name: 'Автор 1'
-                        }));
-                        
-                        setTimeout(() => {
-                            window.location.href = 'posts.html';
-                        }, 1000);
                     } else {
                         // Получаем сообщение об ошибке из системы переводов
                         let errorMessage = 'Неверное имя пользователя или пароль';
@@ -253,52 +316,24 @@
                         messageElement.style.display = 'block';
                     }
                 });
-            }
-            
-            // Обработчик кнопки показа/скрытия пароля
-            const togglePasswordBtn = document.getElementById('toggle-password');
-            const passwordInput = document.getElementById('password');
-            
-            if (togglePasswordBtn && passwordInput) {
-                togglePasswordBtn.addEventListener('click', function() {
-                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                    passwordInput.setAttribute('type', type);
-                    this.classList.toggle('show');
-                    
-                    // Изменение атрибута aria-label для доступности
-                    const newLabel = type === 'password' ? 'Показать пароль' : 'Скрыть пароль';
-                    this.setAttribute('aria-label', newLabel);
-                });
+                
+                // Обработчик кнопки показа/скрытия пароля
+                const togglePasswordBtn = document.getElementById('toggle-password');
+                const passwordInput = document.getElementById('password');
+                
+                if (togglePasswordBtn && passwordInput) {
+                    togglePasswordBtn.addEventListener('click', function() {
+                        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                        passwordInput.setAttribute('type', type);
+                        this.classList.toggle('show');
+                        
+                        // Изменение атрибута aria-label для доступности
+                        const newLabel = type === 'password' ? 'Показать пароль' : 'Скрыть пароль';
+                        this.setAttribute('aria-label', newLabel);
+                    });
+                }
             }
         });
-        
-        // Переключение темы
-        const themeToggleBtn = document.getElementById('theme-toggle-btn');
-        if (themeToggleBtn) {
-            themeToggleBtn.addEventListener('click', function() {
-                // Проверяем наличие класса light-theme
-                if (document.documentElement.classList.contains('light-theme')) {
-                    document.documentElement.classList.remove('light-theme');
-                    document.documentElement.classList.add('dark-theme');
-                    localStorage.setItem('portfolio-theme', 'dark');
-                } else {
-                    document.documentElement.classList.remove('dark-theme');
-                    document.documentElement.classList.add('light-theme');
-                    localStorage.setItem('portfolio-theme', 'light');
-                }
-            });
-        }
-        
-        // Мобильное меню
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        
-        if (mobileMenuBtn && navLinks) {
-            mobileMenuBtn.addEventListener('click', function() {
-                navLinks.classList.toggle('nav-active');
-                mobileMenuBtn.classList.toggle('menu-open');
-            });
-        }
     </script>
     
     <style>
@@ -310,51 +345,6 @@
         position: relative !important;
         padding-top: 20px !important;
         min-height: 80vh !important;
-    }
-    
-    /* Стили для выпадающего меню языков */
-    .lang-dropdown {
-        position: relative;
-        z-index: 1000 !important;
-    }
-    
-    .lang-dropdown-content {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        background-color: var(--color-background);
-        min-width: 120px;
-        border-radius: 8px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-        overflow: hidden;
-        z-index: 2000 !important;
-        display: none;
-    }
-    
-    .lang-dropdown.active .lang-dropdown-content {
-        display: block;
-    }
-    
-    .lang-option {
-        display: block;
-        width: 100%;
-        padding: 10px 15px;
-        text-align: left;
-        border: none;
-        background: none;
-        cursor: pointer;
-        font-size: 14px;
-        color: var(--color-text-primary);
-        transition: background-color 0.3s;
-    }
-    
-    .lang-option:hover {
-        background-color: var(--color-background-secondary);
-    }
-    
-    .lang-option.active {
-        background-color: var(--color-background-accent);
-        font-weight: 500;
     }
     
     .auth-section {
@@ -490,6 +480,86 @@
     #password {
         padding-right: 45px;
         width: 100%;
+    }
+    
+    /* Стили для выпадающего списка языков */
+    .lang-dropdown {
+        position: relative;
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+    
+    .lang-dropdown-btn {
+        display: flex;
+        align-items: center;
+        background: none;
+        border: none;
+        padding: 5px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--color-text-primary);
+        transition: background-color 0.2s;
+    }
+    
+    .lang-dropdown-btn:hover {
+        background-color: var(--color-background-accent);
+    }
+    
+    .lang-dropdown-btn .dropdown-arrow {
+        margin-left: 5px;
+        transition: transform 0.2s;
+    }
+    
+    .lang-dropdown.active .dropdown-arrow {
+        transform: rotate(180deg);
+    }
+    
+    .lang-dropdown-content {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        margin-top: 8px;
+        background-color: var(--color-background-secondary);
+        border-radius: 8px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        min-width: 120px;
+        z-index: 1000;
+        display: none;
+        overflow: hidden;
+    }
+    
+    .lang-dropdown.active .lang-dropdown-content {
+        display: block;
+        animation: fadeIn 0.2s ease;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .lang-option {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: 10px 15px;
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: var(--color-text-primary);
+        font-size: 14px;
+        transition: background-color 0.2s;
+    }
+    
+    .lang-option:hover {
+        background-color: var(--color-background-accent);
+    }
+    
+    .lang-option.active {
+        font-weight: bold;
+        background-color: rgba(var(--color-primary-rgb), 0.1);
     }
     </style>
 </body>
