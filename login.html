@@ -60,6 +60,19 @@
                         </svg>
                     </button>
                 </div>
+                <div class="lang-dropdown">
+                    <button id="lang-toggle-btn" aria-label="Выбрать язык" class="lang-dropdown-btn">
+                        <span id="current-lang" data-lang="current-lang">RU</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-arrow">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="lang-dropdown-content">
+                        <button class="lang-option" data-lang-code="ru">Русский</button>
+                        <button class="lang-option" data-lang-code="en">English</button>
+                        <button class="lang-option" data-lang-code="zh">中文</button>
+                    </div>
+                </div>
                 <button class="mobile-menu-btn" aria-label="Меню">
                     <span></span>
                     <span></span>
@@ -129,33 +142,13 @@
         // Устанавливаем текущий год
         document.getElementById('current-year').textContent = new Date().getFullYear();
         
-        // Переключение темы (не трогаем оригинальную логику авторизации из auth.js)
-        document.getElementById('theme-toggle-btn').addEventListener('click', function() {
-            // Упрощенная версия - проверяем наличие класса light-theme
-            if (document.documentElement.classList.contains('light-theme')) {
-                document.documentElement.classList.remove('light-theme');
-                document.documentElement.classList.add('dark-theme');
-                localStorage.setItem('portfolio-theme', 'dark');
-            } else {
-                document.documentElement.classList.remove('dark-theme');
-                document.documentElement.classList.add('light-theme');
-                localStorage.setItem('portfolio-theme', 'light');
+        // Инициализация переводов
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализируем переводы если они доступны
+            if (window.TranslationSystem && typeof window.TranslationSystem.initLanguage === 'function') {
+                window.TranslationSystem.initLanguage();
             }
-        });
-        
-        // Мобильное меню
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        
-        if (mobileMenuBtn && navLinks) {
-            mobileMenuBtn.addEventListener('click', function() {
-                navLinks.classList.toggle('nav-active');
-                mobileMenuBtn.classList.toggle('menu-open');
-            });
-        }
-        
-        // Принудительно отобразить блок входа сразу после загрузки страницы
-        window.addEventListener('DOMContentLoaded', function() {
+            
             // Гарантируем видимость блока входа
             const mainContent = document.querySelector('.main-content');
             const authSection = document.querySelector('.auth-section');
@@ -176,11 +169,6 @@
                 authContainer.style.display = 'block';
                 authContainer.style.visibility = 'visible';
                 authContainer.style.opacity = '1';
-            }
-            
-            // Инициализация системы переводов если она доступна
-            if (window.TranslationSystem && typeof window.TranslationSystem.initLanguage === 'function') {
-                window.TranslationSystem.initLanguage();
             }
             
             // Настройка формы входа
@@ -227,6 +215,27 @@
                         setTimeout(() => {
                             window.location.href = 'posts.html';
                         }, 1000);
+                    } else if (username === 'author1' && password === 'author123') {
+                        // Автор 1
+                        const successMessage = window.TranslationSystem && 
+                            window.TranslationSystem.translations && 
+                            window.TranslationSystem.translations['login-success'] ? 
+                            window.TranslationSystem.translations['login-success'][document.documentElement.lang || 'ru'] : 
+                            'Успешный вход. Перенаправление...';
+                        
+                        messageElement.textContent = successMessage;
+                        messageElement.className = 'auth-message success';
+                        messageElement.style.display = 'block';
+                        
+                        localStorage.setItem('komaru-auth', JSON.stringify({
+                            username: 'author1',
+                            role: 'author',
+                            name: 'Автор 1'
+                        }));
+                        
+                        setTimeout(() => {
+                            window.location.href = 'posts.html';
+                        }, 1000);
                     } else {
                         // Получаем сообщение об ошибке из системы переводов
                         let errorMessage = 'Неверное имя пользователя или пароль';
@@ -244,24 +253,52 @@
                         messageElement.style.display = 'block';
                     }
                 });
-                
-                // Обработчик кнопки показа/скрытия пароля
-                const togglePasswordBtn = document.getElementById('toggle-password');
-                const passwordInput = document.getElementById('password');
-                
-                if (togglePasswordBtn && passwordInput) {
-                    togglePasswordBtn.addEventListener('click', function() {
-                        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                        passwordInput.setAttribute('type', type);
-                        this.classList.toggle('show');
-                        
-                        // Изменение атрибута aria-label для доступности
-                        const newLabel = type === 'password' ? 'Показать пароль' : 'Скрыть пароль';
-                        this.setAttribute('aria-label', newLabel);
-                    });
-                }
+            }
+            
+            // Обработчик кнопки показа/скрытия пароля
+            const togglePasswordBtn = document.getElementById('toggle-password');
+            const passwordInput = document.getElementById('password');
+            
+            if (togglePasswordBtn && passwordInput) {
+                togglePasswordBtn.addEventListener('click', function() {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.classList.toggle('show');
+                    
+                    // Изменение атрибута aria-label для доступности
+                    const newLabel = type === 'password' ? 'Показать пароль' : 'Скрыть пароль';
+                    this.setAttribute('aria-label', newLabel);
+                });
             }
         });
+        
+        // Переключение темы
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', function() {
+                // Проверяем наличие класса light-theme
+                if (document.documentElement.classList.contains('light-theme')) {
+                    document.documentElement.classList.remove('light-theme');
+                    document.documentElement.classList.add('dark-theme');
+                    localStorage.setItem('portfolio-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark-theme');
+                    document.documentElement.classList.add('light-theme');
+                    localStorage.setItem('portfolio-theme', 'light');
+                }
+            });
+        }
+        
+        // Мобильное меню
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (mobileMenuBtn && navLinks) {
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.classList.toggle('nav-active');
+                mobileMenuBtn.classList.toggle('menu-open');
+            });
+        }
     </script>
     
     <style>
@@ -273,6 +310,51 @@
         position: relative !important;
         padding-top: 20px !important;
         min-height: 80vh !important;
+    }
+    
+    /* Стили для выпадающего меню языков */
+    .lang-dropdown {
+        position: relative;
+        z-index: 1000 !important;
+    }
+    
+    .lang-dropdown-content {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: var(--color-background);
+        min-width: 120px;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        z-index: 2000 !important;
+        display: none;
+    }
+    
+    .lang-dropdown.active .lang-dropdown-content {
+        display: block;
+    }
+    
+    .lang-option {
+        display: block;
+        width: 100%;
+        padding: 10px 15px;
+        text-align: left;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 14px;
+        color: var(--color-text-primary);
+        transition: background-color 0.3s;
+    }
+    
+    .lang-option:hover {
+        background-color: var(--color-background-secondary);
+    }
+    
+    .lang-option.active {
+        background-color: var(--color-background-accent);
+        font-weight: 500;
     }
     
     .auth-section {
