@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="250" viewBox="0 0 400 250">
+  <!-- Фон с градиентом -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#121212"/>
+      <stop offset="100%" style="stop-color:#1e3a5f"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Основной фон -->
+  <rect width="400" height="250" fill="url(#bg-gradient)"/>
+  
+  <!-- Минималистичная сетка -->
+  <line x1="0" y1="50" x2="400" y2="50" stroke="#ffffff" stroke-width="0.5" opacity="0.1"/>
+  <line x1="0" y1="200" x2="400" y2="200" stroke="#ffffff" stroke-width="0.5" opacity="0.1"/>
+  <line x1="100" y1="0" x2="100" y2="250" stroke="#ffffff" stroke-width="0.5" opacity="0.1"/>
+  <line x1="300" y1="0" x2="300" y2="250" stroke="#ffffff" stroke-width="0.5" opacity="0.1"/>
+  
+  <!-- Лого игры - простой символ -->
+  <g transform="translate(200, 125)">
+    <circle cx="0" cy="0" r="60" fill="none" stroke="#4a76a8" stroke-width="2" opacity="0.8"/>
+    <circle cx="0" cy="0" r="45" fill="none" stroke="#4a76a8" stroke-width="1" opacity="0.6"/>
+    
+    <!-- Стилизованная буква D -->
+    <path d="M-15,-25 L5,-25 C15,-25 25,-15 25,0 C25,15 15,25 5,25 L-15,25 Z" 
+          fill="none" stroke="#e1e1e1" stroke-width="3"/>
+          
+    <!-- Перекрестие прицела - тонкий намек на шутер -->
+    <line x1="-40" y1="0" x2="40" y2="0" stroke="#6c9bd9" stroke-width="1" opacity="0.8"/>
+    <line x1="0" y1="-40" x2="0" y2="40" stroke="#6c9bd9" stroke-width="1" opacity="0.8"/>
+    <circle cx="0" cy="0" r="3" fill="#6c9bd9" opacity="0.8"/>
+  </g>
+  
+  <!-- Название игры - минималистичное -->
+  <text x="200" y="210" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle" letter-spacing="3">DEADZONE</text>
+  <text x="200" y="230" font-family="Arial, sans-serif" font-size="10" fill="#a0a0a0" text-anchor="middle">UNREAL ENGINE 5</text>
+</svg> 

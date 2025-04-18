@@ -1251,15 +1251,13 @@ footer {
     visibility: hidden;
     transform: translateY(-10px);
     transition: all 0.3s ease;
-    z-index: var(--z-index-dropdown);
-    pointer-events: none;
+    z-index: 100;
 }
 
 .lang-dropdown.active .lang-dropdown-content {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-    pointer-events: all;
 }
 
 .lang-option {
@@ -1272,8 +1270,6 @@ footer {
     cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
-    pointer-events: all;
-    z-index: var(--z-index-dropdown);
 }
 
 .lang-option:hover {

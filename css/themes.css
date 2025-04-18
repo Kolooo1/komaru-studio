@@ -144,18 +144,89 @@ body {
     border-bottom: 1px solid rgba(63, 63, 70, 0.6);  /* zinc-700 с прозрачностью */
 }
 
-/* Усиленные тени для карточек проектов */
+/* Стили для карточек проектов */
 .project-card {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.light-theme .project-card {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    color: #212529;
 }
 
 .dark-theme .project-card {
     background-color: var(--color-muted);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid #2c2c2c;
 }
 
 .project-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
     box-shadow: 0 10px 30px var(--shadow-color-strong);
+}
+
+/* Стили для изображений проектов */
+.project-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.light-theme .project-image {
+    background-color: #f0f2f5;
+}
+
+.dark-theme .project-image {
+    background-color: #1e1e1e;
+}
+
+/* Стили для информации о проектах */
+.light-theme .project-info h3 {
+    color: #212529;
+}
+
+.light-theme .project-info p {
+    color: #495057;
+}
+
+/* Стили для тегов проектов в светлой теме */
+.light-theme .project-tag {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Стили для кнопок проектов */
+.light-theme .project-links a {
+    color: #007bff;
+}
+
+.light-theme .project-links a.btn-secondary {
+    color: #6c757d;
+}
+
+.dark-theme .project-links a {
+    color: #4a9eff;
+}
+
+.dark-theme .project-links a.btn-secondary {
+    color: #ababab;
+}
+
+/* Специальные стили для Rust Learn */
+.light-theme .rust-text {
+    color: #d14d41;
+}
+
+.dark-theme .rust-text {
+    color: #d14d41;
+}
+
+.light-theme .learn-text {
+    color: #d14d41;
+}
+
+.dark-theme .learn-text {
+    color: white;
 }

@@ -155,34 +155,34 @@ const translations = {
     
     // Члены команды
     'member-1-name': {
-        'ru': 'Имя Участника 1',
-        'en': 'Team Member 1',
-        'zh': '团队成员 1'
+        'ru': 'Артём Ударцев',
+        'en': 'Artyom Udartsev',
+        'zh': '阿尔乔姆·乌达尔采夫'
     },
     'member-1-role': {
-        'ru': 'Должность',
-        'en': 'Position',
-        'zh': '职位'
+        'ru': 'Главный разработчик',
+        'en': 'Lead Developer',
+        'zh': '首席开发者'
     },
     'member-2-name': {
-        'ru': 'Имя Участника 2',
-        'en': 'Team Member 2',
-        'zh': '团队成员 2'
+        'ru': 'Гагик Зарян',
+        'en': 'Gagik Zaryan',
+        'zh': '加吉克·扎良'
     },
     'member-2-role': {
-        'ru': 'Должность',
-        'en': 'Position',
-        'zh': '职位'
+        'ru': 'Главный строитель',
+        'en': 'Lead Builder',
+        'zh': '首席建造师'
     },
     'member-3-name': {
-        'ru': 'Имя Участника 3',
-        'en': 'Team Member 3',
-        'zh': '团队成员 3'
+        'ru': 'Андрей Толмачев',
+        'en': 'Andrey Tolmachev',
+        'zh': '安德烈·托尔马切夫'
     },
     'member-3-role': {
-        'ru': 'Должность',
-        'en': 'Position',
-        'zh': '职位'
+        'ru': 'Главный дизайнер',
+        'en': 'Lead Designer',
+        'zh': '首席设计师'
     },
 
     // Проекты
@@ -197,9 +197,9 @@ const translations = {
         'zh': 'UE5冒险游戏'
     },
     'project-1-description': {
-        'ru': 'Наш первый проект, трёхмерный моба шутер, вдохновлённый игрой Deadlock.',
-        'en': 'Our first project, a 3D mob shooter inspired by the game Deadlock.',
-        'zh': '我们的第一个项目，一款基于虚幻引擎5开发的3D僵尸射击游戏，灵感来源于游戏Deadlock。'
+        'ru': 'Наш первый проект, трёхмерный моба шутер. Проект создан с использованием последней версии Unreal Engine и включает продвинутые механики боя. Игровой процесс сочетает в себе элементы стратегии и интенсивных сражений в реальном времени.',
+        'en': 'Our first project, a 3D mob shooter. The project is built using the latest version of Unreal Engine and features advanced combat mechanics. The gameplay combines elements of strategy and intense real-time battles.',
+        'zh': '我们的第一个项目，一款3D射击游戏。该项目使用最新版本的虚幻引擎构建，具有先进的战斗机制。游戏玩法结合了策略元素和激烈的实时战斗。'
     },
     'project-2-title': {
         'ru': 'Интерактивный учебник по Rust',
@@ -252,6 +252,26 @@ const translations = {
         'ru': 'Есть вопросы или предложения? Напишите нам, и мы свяжемся с вами как можно скорее.',
         'en': 'Have questions or suggestions? Write to us, and we will get back to you as soon as possible.',
         'zh': '有问题或建议？给我们写信，我们会尽快回复您。'
+    },
+    'contact-email-title': {
+        'ru': 'Электронная почта',
+        'en': 'Email',
+        'zh': '电子邮件'
+    },
+    'contact-phone-title': {
+        'ru': 'Телефон',
+        'en': 'Phone',
+        'zh': '电话'
+    },
+    'contact-location-title': {
+        'ru': 'Локация',
+        'en': 'Location',
+        'zh': '位置'
+    },
+    'contact-location': {
+        'ru': 'Тольятти, Россия',
+        'en': 'Tolyatti, Russia',
+        'zh': '托利亚蒂，俄罗斯'
     },
     'contact-method-1-title': {
         'ru': 'Электронная почта',

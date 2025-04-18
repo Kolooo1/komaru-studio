@@ -111,10 +111,8 @@
                     </div>
                 </div>
                 <div class="hero-image fade-in-section">
-                    <!-- Здесь можно добавить изображение команды или иллюстрацию -->
-                    <div class="image-placeholder">
-                        <span data-lang="hero-img-placeholder">Изображение команды</span>
-                    </div>
+                    <!-- Изображение команды -->
+                    <img src="assets/images/4.jpg" alt="Команда Komaru Studio" class="team-image" style="max-height: 510px; width: auto; object-fit: contain;">
                 </div>
             </div>
         </section>
@@ -139,14 +137,14 @@
                         <!-- Здесь можно добавить карточки членов команды -->
                         <div class="team-member fade-in-section">
                             <div class="member-photo-placeholder">
-                                <img src="assets/images/1.jpg" alt="Участник 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-full);">
+                                <img src="assets/images/2.jpg" alt="Участник 1" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-full);">
                             </div>
                             <h3 data-lang="member-1-name">Артём Ударцев</h3>
                             <p data-lang="member-1-role">Главный разработчик</p>
                         </div>
                         <div class="team-member fade-in-section">
                             <div class="member-photo-placeholder">
-                                <img src="assets/images/2.jpg" alt="Участник 2" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-full);">
+                                <img src="assets/images/1.jpg" alt="Участник 2" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-full);">
                             </div>
                             <h3 data-lang="member-2-name">Гагик Зарян</h3>
                             <p data-lang="member-2-role">Главный строитель</p>
@@ -181,74 +179,69 @@
         <section id="projects" class="projects">
             <div class="container">
                 <h2 class="section-title fade-in-section" data-lang="projects-title">Наши проекты</h2>
-                <div class="project-grid">
+                <div class="project-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px;">
                     <!-- Проект 1 -->
-                    <div class="project-card fade-in-section">
-                        <div class="project-image">
-                            <!-- Здесь добавьте изображение проекта -->
-                            <div class="image-placeholder">
-                                <span data-lang="project-img-placeholder">Изображение проекта</span>
-                            </div>
+                    <div class="project-card fade-in-section" style="display: flex; flex-direction: column; height: 100%;">
+                        <div class="project-image" style="height: 250px; display: flex; justify-content: center; align-items: center; padding: 0;">
+                            <object data="assets/images/projects/deadlock-shooter.svg" type="image/svg+xml" style="width: 100%; height: 250px;"></object>
                         </div>
-                        <div class="project-info">
-                            <h3 data-lang="project-1-title">Название Проекта 1</h3>
-                            <p data-lang="project-1-description">Краткое описание проекта. Расскажите о целях, технологиях и результатах.</p>
-                            <div class="project-tags">
-                                <span class="project-tag">Unreal Engine 5</span>
-                                <span class="project-tag">C++</span>
-                                <span class="project-tag">Blueprints</span>
+                        <div class="project-info" style="padding: 20px; display: flex; flex-direction: column; flex-grow: 1;">
+                            <h3 data-lang="project-1-title" style="margin-bottom: 12px;">Приключенческая игра на UE5</h3>
+                            <p data-lang="project-1-description" style="margin-bottom: 20px; flex-grow: 1;">Наш первый проект, трёхмерный моба шутер. Проект создан с использованием последней версии Unreal Engine и включает продвинутые механики боя. Игровой процесс сочетает в себе элементы стратегии и интенсивных сражений в реальном времени.</p>
+                            <div class="project-tags" style="margin-bottom: 20px;">
+                                <span class="project-tag" style="background-color: #2b4c7e; color: white; border-radius: 15px; padding: 5px 12px; display: inline-block; margin-right: 8px; margin-bottom: 8px;">Unreal Engine 5</span>
+                                <span class="project-tag" style="background-color: #00599c; color: white; border-radius: 15px; padding: 5px 12px; display: inline-block; margin-right: 8px; margin-bottom: 8px;">C++</span>
+                                <span class="project-tag" style="background-color: #3d85c6; color: white; border-radius: 15px; padding: 5px 12px; display: inline-block; margin-bottom: 8px;">Blueprints</span>
                             </div>
-                            <div class="project-links">
-                                <a href="#" class="btn btn-small" data-lang="project-demo-link">Демо</a>
-                                <a href="#" class="btn btn-small btn-secondary" data-lang="project-code-link">Код</a>
+                            <div class="project-links" style="display: flex; justify-content: flex-start; gap: 10px; margin-top: auto;">
+                                <a href="#" class="btn btn-small" data-lang="project-live-link" style="min-width: 80px; text-align: center;">Сайт</a>
+                                <a href="#" class="btn btn-small btn-secondary" data-lang="project-code-link" style="min-width: 80px; text-align: center;">Код</a>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Проект 2 -->
-                    <div class="project-card fade-in-section" style="background-color: #1e1e1e; color: white;">
-                        <div class="project-image" style="display: flex; justify-content: center; align-items: center; padding: 20px 0;">
+                    <div class="project-card fade-in-section" style="display: flex; flex-direction: column; height: 100%;">
+                        <div class="project-image" style="height: 250px; display: flex; justify-content: center; align-items: center; padding: 20px 0;">
                             <div style="display: flex; align-items: center;">
-                                <span style="color: #d14d41; font-size: 32px; font-weight: bold; font-family: Arial, sans-serif;">Rust</span>
-                                <span style="color: white; font-size: 32px; font-weight: bold; font-family: Arial, sans-serif; margin-left: 8px;">Learn</span>
+                                <span class="rust-text" style="font-size: 32px; font-weight: bold; font-family: Arial, sans-serif;">Rust</span>
+                                <span class="learn-text" style="font-size: 32px; font-weight: bold; font-family: Arial, sans-serif; margin-left: 8px;">Learn</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" style="margin-left: 5px;">
                                   <path fill="#d14d41" d="M20,10 C14.5,10 10,14.5 10,20 C10,25.5 14.5,30 20,30 C25.5,30 30,25.5 30,20 C30,14.5 25.5,10 20,10 Z M20,16 C17.8,16 16,17.8 16,20 C16,22.2 17.8,24 20,24 C22.2,24 24,22.2 24,20 C24,17.8 22.2,16 20,16 Z"></path>
                                 </svg>
                             </div>
                         </div>
-                        <div class="project-info" style="padding: 0 20px 20px 20px;">
-                            <h3 data-lang="project-2-title" style="color: white; margin-bottom: 10px;">Интерактивный учебник по Rust</h3>
-                            <p data-lang="project-2-description" style="color: #ababab; margin-bottom: 20px;">Образовательная платформа для изучения языка программирования Rust с интерактивными упражнениями, подробными уроками и встроенным компилятором для выполнения кода прямо в браузере.</p>
-                            <div class="project-tags" style="margin-bottom: 15px;">
-                                <span class="project-tag" style="background-color: #d14d41; color: white; border-radius: 15px; padding: 5px 12px; display: inline-block; margin-right: 8px;">Rust</span>
-                                <span class="project-tag" style="background-color: #6e41a7; color: white; border-radius: 15px; padding: 5px 12px; display: inline-block; margin-right: 8px;">HTML/CSS</span>
-                                <span class="project-tag" style="background-color: #f0db4f; color: black; border-radius: 15px; padding: 5px 12px; display: inline-block;">JavaScript</span>
+                        <div class="project-info" style="padding: 20px; display: flex; flex-direction: column; flex-grow: 1;">
+                            <h3 data-lang="project-2-title" style="margin-bottom: 12px;">Интерактивный учебник по Rust</h3>
+                            <p data-lang="project-2-description" style="margin-bottom: 20px; flex-grow: 1;">Образовательная платформа для изучения языка программирования Rust с интерактивными упражнениями, подробными уроками и встроенным компилятором для выполнения кода прямо в браузере.</p>
+                            <div class="project-tags" style="margin-bottom: 20px;">
+                                <span class="project-tag" style="background-color: #d14d41; color: white; border-radius: 15px; padding: 5px 12px; display: inline-block; margin-right: 8px; margin-bottom: 8px;">Rust</span>
+                                <span class="project-tag" style="background-color: #6e41a7; color: white; border-radius: 15px; padding: 5px 12px; display: inline-block; margin-right: 8px; margin-bottom: 8px;">HTML/CSS</span>
+                                <span class="project-tag" style="background-color: #f0db4f; color: black; border-radius: 15px; padding: 5px 12px; display: inline-block; margin-bottom: 8px;">JavaScript</span>
                             </div>
-                            <div class="project-links">
-                                <a href="#" class="btn btn-small" style="color: #4a9eff; text-decoration: none; border: none; background: transparent; padding: 0; margin-right: 20px;" data-lang="project-live-link">Сайт</a>
-                                <a href="#" class="btn btn-small btn-secondary" style="color: #ababab; text-decoration: none; border: none; background: transparent; padding: 0;" data-lang="project-code-link">Код</a>
+                            <div class="project-links" style="display: flex; justify-content: flex-start; gap: 10px; margin-top: auto;">
+                                <a href="https://kolooo1.github.io/RustLearn/" target="_blank" rel="noopener noreferrer" class="btn btn-small" data-lang="project-live-link" style="min-width: 80px; text-align: center;">Сайт</a>
+                                <a href="#" class="btn btn-small btn-secondary" data-lang="project-code-link" style="min-width: 80px; text-align: center;">Код</a>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Проект 3 -->
-                    <div class="project-card fade-in-section">
-                        <div class="project-image">
-                            <div class="image-placeholder">
-                                <span data-lang="project-img-placeholder">Изображение проекта</span>
-                            </div>
+                    <div class="project-card fade-in-section" style="display: flex; flex-direction: column; height: 100%;">
+                        <div class="project-image" style="height: 250px; display: flex; justify-content: center; align-items: center; padding: 0; overflow: hidden;">
+                            <img src="assets/images/projects/Evolution-Clicker.png" alt="Эволюция: Игра-кликер" style="max-width: 100%; max-height: 250px; object-fit: contain;">
                         </div>
-                        <div class="project-info">
-                            <h3 data-lang="project-3-title">Название Проекта 3</h3>
-                            <p data-lang="project-3-description">Краткое описание проекта. Расскажите о целях, технологиях и результатах.</p>
-                            <div class="project-tags">
-                                <span class="project-tag">JavaScript</span>
-                                <span class="project-tag">CSS</span>
-                                <span class="project-tag">Game</span>
+                        <div class="project-info" style="padding: 20px; display: flex; flex-direction: column; flex-grow: 1;">
+                            <h3 data-lang="project-3-title" style="margin-bottom: 12px;">Эволюция: Игра-кликер</h3>
+                            <p data-lang="project-3-description" style="margin-bottom: 20px; flex-grow: 1;">Увлекательная браузерная игра-кликер, где игроки развивают свою форму жизни от одноклеточного организма до сложной цивилизации. Включает более 100 уровней эволюции и уникальную систему достижений.</p>
+                            <div class="project-tags" style="margin-bottom: 20px;">
+                                <span class="project-tag" style="background-color: #f0db4f; color: black; border-radius: 15px; padding: 5px 12px; display: inline-block; margin-right: 8px; margin-bottom: 8px;">JavaScript</span>
+                                <span class="project-tag" style="background-color: #264de4; color: white; border-radius: 15px; padding: 5px 12px; display: inline-block; margin-right: 8px; margin-bottom: 8px;">CSS</span>
+                                <span class="project-tag" style="background-color: #7b1fa2; color: white; border-radius: 15px; padding: 5px 12px; display: inline-block; margin-bottom: 8px;">Game</span>
                             </div>
-                            <div class="project-links">
-                                <a href="#" class="btn btn-small" data-lang="project-live-link">Играть</a>
-                                <a href="#" class="btn btn-small btn-secondary" data-lang="project-code-link">Код</a>
+                            <div class="project-links" style="display: flex; justify-content: flex-start; gap: 10px; margin-top: auto;">
+                                <a href="#" class="btn btn-small" data-lang="project-live-link" style="min-width: 80px; text-align: center;">Сайт</a>
+                                <a href="#" class="btn btn-small btn-secondary" data-lang="project-code-link" style="min-width: 80px; text-align: center;">Код</a>
                             </div>
                         </div>
                     </div>
@@ -272,21 +265,21 @@
                                 <div class="icon">📧</div>
                                 <div class="contact-text">
                                     <h3 data-lang="contact-email-title">Электронная почта</h3>
-                                    <p>info@komarustudio.ru</p>
+                                    <p>udarcova032@gmail.com</p>
                                 </div>
                             </div>
                             <div class="contact-method fade-in-section">
                                 <div class="icon">📱</div>
                                 <div class="contact-text">
                                     <h3 data-lang="contact-phone-title">Телефон</h3>
-                                    <p>+7 (900) 123-45-67</p>
+                                    <p>+7xxxxxxxxxx</p>
                                 </div>
                             </div>
                             <div class="contact-method fade-in-section">
                                 <div class="icon">📍</div>
                                 <div class="contact-text">
                                     <h3 data-lang="contact-location-title">Локация</h3>
-                                    <p data-lang="contact-location">Москва, Россия</p>
+                                    <p data-lang="contact-location">Тольятти, Россия</p>
                                 </div>
                             </div>
                         </div>
