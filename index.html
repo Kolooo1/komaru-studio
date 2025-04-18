@@ -16,8 +16,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+    // Применить тему сразу, до загрузки страницы
+    (function() {
+        var savedTheme = localStorage.getItem('portfolio-theme') || 'light';
+        document.documentElement.classList.add(savedTheme + '-theme');
+    })();
+    </script>
 </head>
-<body class="light-theme">
+<body>
     <!-- Вступительная анимация -->
     <div class="splash-screen">
         <div class="splash-content">
@@ -333,7 +341,33 @@
     </footer>
 
     <!-- Подключение скриптов -->
+    <script src="js/translations.js"></script>
     <script src="js/main.js"></script>
+    
+    <!-- Скрипт для исправления проблемы со splash screen -->
+    <script>
+        // Принудительно скрываем splash screen после 2 секунд
+        document.addEventListener('DOMContentLoaded', function() {
+            const splashScreen = document.querySelector('.splash-screen');
+            const mainContent = document.querySelector('.main-content');
+            
+            // Инициализируем переводы если они доступны
+            if (window.TranslationSystem && typeof window.TranslationSystem.initLanguage === 'function') {
+                window.TranslationSystem.initLanguage();
+            }
+            
+            // Гарантируем переход от splash screen к основному контенту через 2 секунды
+            setTimeout(function() {
+                if (splashScreen) {
+                    splashScreen.style.opacity = '0';
+                    splashScreen.style.visibility = 'hidden';
+                }
+                if (mainContent) {
+                    mainContent.classList.add('visible');
+                }
+            }, 2000);
+        });
+    </script>
     
     <!-- Скрипт для анимации при скролле -->
     <script>

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Публикации | Komaru Studio</title>
-    <meta name="description" content="Публикации команды Komaru Studio">
+    <title data-lang="posts-title">Публикации | Komaru Studio</title>
+    <meta name="description" content="Публикации команды Komaru Studio" data-lang="posts-description">
     <!-- Иконка сайта -->
     <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
     <link rel="icon" href="assets/icons/favicon.ico" sizes="any">
@@ -17,20 +17,28 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+    // Применить тему сразу, до загрузки страницы
+    (function() {
+        var savedTheme = localStorage.getItem('portfolio-theme') || 'light';
+        document.documentElement.classList.add(savedTheme + '-theme');
+    })();
+    </script>
 </head>
-<body class="light-theme">
+<body>
     <header>
         <nav class="container">
             <div class="logo">
                 <a href="index.html" class="logo-link">
-                    <span>Komaru Studio</span>
+                    <span data-lang="logo-full">Komaru Studio</span>
                 </a>
             </div>
             <div class="nav-controls">
                 <ul class="nav-links">
-                    <li><a href="index.html">Главная</a></li>
-                    <li><a href="posts.html" class="active">Публикации</a></li>
-                    <li><a href="#" id="login-status">Войти</a></li>
+                    <li><a href="index.html" data-lang="nav-home">Главная</a></li>
+                    <li><a href="posts.html" class="active" data-lang="nav-posts">Публикации</a></li>
+                    <li><a href="#" id="login-status" data-lang="login-link">Войти</a></li>
                 </ul>
                 <div class="theme-toggle">
                     <button id="theme-toggle-btn" aria-label="Переключить тему">
@@ -50,6 +58,19 @@
                         </svg>
                     </button>
                 </div>
+                <div class="lang-dropdown">
+                    <button id="lang-toggle-btn" aria-label="Выбрать язык" class="lang-dropdown-btn">
+                        <span id="current-lang" data-lang="current-lang">RU</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-arrow">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="lang-dropdown-content">
+                        <button class="lang-option" data-lang-code="ru">Русский</button>
+                        <button class="lang-option" data-lang-code="en">English</button>
+                        <button class="lang-option" data-lang-code="zh">中文</button>
+                    </div>
+                </div>
                 <button class="mobile-menu-btn" aria-label="Меню">
                     <span></span>
                     <span></span>
@@ -62,15 +83,15 @@
     <main class="main-content visible">
         <div class="container">
             <div class="posts-header">
-                <h1 class="section-title">Публикации команды</h1>
+                <h1 class="section-title" data-lang="posts-title">Публикации команды</h1>
                 <div id="author-controls" class="author-controls" style="display: none;">
-                    <a href="edit-post.html" class="btn btn-primary">Новая публикация</a>
+                    <a href="edit-post.html" class="btn btn-primary" data-lang="new-post">Новая публикация</a>
                 </div>
             </div>
             
             <div id="posts-container" class="posts-container">
                 <!-- Посты будут загружены с помощью JavaScript -->
-                <div class="post-loading">Загрузка публикаций...</div>
+                <div class="post-loading" data-lang="loading-posts">Загрузка публикаций...</div>
             </div>
         </div>
     </main>
@@ -79,14 +100,14 @@
     <div id="delete-confirm-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Подтверждение удаления</h3>
+                <h3 data-lang="confirm-delete-title">Подтверждение удаления</h3>
             </div>
             <div class="modal-body">
-                <p>Вы действительно хотите удалить эту публикацию? Это действие нельзя отменить.</p>
+                <p data-lang="confirm-delete-text">Вы действительно хотите удалить эту публикацию? Это действие нельзя отменить.</p>
             </div>
             <div class="modal-footer">
-                <button id="confirm-delete-btn" class="btn btn-danger">Да, удалить</button>
-                <button id="cancel-delete-btn" class="btn btn-secondary">Отмена</button>
+                <button id="confirm-delete-btn" class="btn btn-danger" data-lang="confirm-delete-yes">Да, удалить</button>
+                <button id="cancel-delete-btn" class="btn btn-secondary" data-lang="confirm-delete-cancel">Отмена</button>
             </div>
         </div>
     </div>
@@ -95,22 +116,23 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <span>KS</span>
+                    <span data-lang="logo">KS</span>
                 </div>
                 <div class="footer-links">
                     <ul>
-                        <li><a href="index.html">Главная</a></li>
-                        <li><a href="posts.html">Публикации</a></li>
+                        <li><a href="index.html" data-lang="nav-home">Главная</a></li>
+                        <li><a href="posts.html" data-lang="nav-posts">Публикации</a></li>
                     </ul>
                 </div>
                 <div class="footer-copy">
-                    <p>© <span id="current-year">2024</span> Komaru Studio. Все права защищены.</p>
+                    <p>© <span id="current-year">2024</span> <span data-lang="footer-copyright">Komaru Studio. Все права защищены.</span></p>
                 </div>
             </div>
         </div>
     </footer>
 
     <!-- Подключение скриптов -->
+    <script src="js/translations.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/post-manager.js"></script>
     <script src="js/notifications.js"></script>
@@ -118,25 +140,44 @@
         document.getElementById('current-year').textContent = new Date().getFullYear();
         
         // Инициализация темы
-        const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
-        document.body.className = `${savedTheme}-theme`;
-        
         const themeToggleBtn = document.getElementById('theme-toggle-btn');
         if (themeToggleBtn) {
             themeToggleBtn.addEventListener('click', () => {
-                const currentTheme = document.body.className.includes('light') ? 'light' : 'dark';
-                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-                document.body.className = `${newTheme}-theme`;
-                localStorage.setItem('portfolio-theme', newTheme);
+                if (document.documentElement.classList.contains('light-theme')) {
+                    document.documentElement.classList.remove('light-theme');
+                    document.documentElement.classList.add('dark-theme');
+                    localStorage.setItem('portfolio-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark-theme');
+                    document.documentElement.classList.add('light-theme');
+                    localStorage.setItem('portfolio-theme', 'light');
+                }
             });
         }
+        
+        // Инициализация переводов
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализируем переводы если они доступны
+            if (window.TranslationSystem && typeof window.TranslationSystem.initLanguage === 'function') {
+                window.TranslationSystem.initLanguage();
+            }
+        });
 
         // Инициализация функции удаления поста
         function deletePost(postId) {
             if (window.PostManager) {
                 window.PostManager.deletePost(postId, function() {
                     // После успешного удаления обновляем список постов
-                    window.Notifications.success('Публикация успешно удалена');
+                    const lang = document.documentElement.lang || 'ru';
+                    let successMessage = 'Публикация успешно удалена';
+                    
+                    if (window.TranslationSystem && 
+                        window.TranslationSystem.translations && 
+                        window.TranslationSystem.translations['post-delete-success']) {
+                        successMessage = window.TranslationSystem.translations['post-delete-success'][lang];
+                    }
+                    
+                    window.Notifications.success(successMessage);
                     loadPosts();
                 });
             }

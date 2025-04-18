@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Редактирование публикации | Komaru Studio</title>
+    <title data-lang="editor-title">Редактирование публикации | Komaru Studio</title>
     <meta name="description" content="Редактирование публикации Komaru Studio">
     <!-- Иконка сайта -->
     <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
@@ -17,19 +17,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+    // Применить тему сразу, до загрузки страницы
+    (function() {
+        var savedTheme = localStorage.getItem('portfolio-theme') || 'light';
+        document.documentElement.classList.add(savedTheme + '-theme');
+    })();
+    </script>
 </head>
-<body class="light-theme">
+<body>
     <header>
         <nav class="container">
             <div class="logo">
                 <a href="index.html" class="logo-link">
-                    <span>Komaru Studio</span>
+                    <span data-lang="logo-full">Komaru Studio</span>
                 </a>
             </div>
             <div class="nav-controls">
                 <ul class="nav-links">
-                    <li><a href="index.html">Главная</a></li>
-                    <li><a href="posts.html">Публикации</a></li>
+                    <li><a href="index.html" data-lang="nav-home">Главная</a></li>
+                    <li><a href="posts.html" data-lang="nav-posts">Публикации</a></li>
                 </ul>
                 <div class="theme-toggle">
                     <button id="theme-toggle-btn" aria-label="Переключить тему">
@@ -49,6 +57,19 @@
                         </svg>
                     </button>
                 </div>
+                <div class="lang-dropdown">
+                    <button id="lang-toggle-btn" aria-label="Выбрать язык" class="lang-dropdown-btn">
+                        <span id="current-lang" data-lang="current-lang">RU</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-arrow">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="lang-dropdown-content">
+                        <button class="lang-option" data-lang-code="ru">Русский</button>
+                        <button class="lang-option" data-lang-code="en">English</button>
+                        <button class="lang-option" data-lang-code="zh">中文</button>
+                    </div>
+                </div>
                 <button class="mobile-menu-btn" aria-label="Меню">
                     <span></span>
                     <span></span>
@@ -61,15 +82,15 @@
     <main class="main-content visible">
         <div class="container">
             <div class="editor-header">
-                <h1 class="section-title" id="editor-title">Новая публикация</h1>
+                <h1 class="section-title" id="editor-title" data-lang="editor-new-post">Новая публикация</h1>
             </div>
             
             <div id="unauthorized-message" class="unauthorized-message" style="display: none;">
                 <div class="message-box">
-                    <h2>Доступ запрещен</h2>
-                    <p>У вас нет прав для создания или редактирования публикаций. Пожалуйста, войдите в систему с соответствующими правами.</p>
-                    <a href="login.html" class="btn btn-primary">Войти</a>
-                    <a href="posts.html" class="btn btn-secondary">К публикациям</a>
+                    <h2 data-lang="editor-unauthorized">Доступ запрещен</h2>
+                    <p data-lang="editor-unauthorized-message">У вас нет прав для создания или редактирования публикаций. Пожалуйста, войдите в систему с соответствующими правами.</p>
+                    <a href="login.html" class="btn btn-primary" data-lang="login-button">Войти</a>
+                    <a href="posts.html" class="btn btn-secondary" data-lang="back-to-posts">К публикациям</a>
                 </div>
             </div>
             
@@ -78,7 +99,7 @@
                     <input type="hidden" id="post-id" value="">
                     
                     <div class="form-group">
-                        <label for="post-title">Заголовок публикации</label>
+                        <label for="post-title" data-lang="editor-post-title">Заголовок публикации</label>
                         <input type="text" id="post-title" required>
                     </div>
                     
@@ -88,19 +109,19 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="post-content">Содержание публикации</label>
+                        <label for="post-content" data-lang="editor-post-content">Содержание публикации</label>
                         <textarea id="post-content" rows="12" required></textarea>
                     </div>
                     
                     <div class="form-group">
-                        <label for="post-image">URL изображения (необязательно)</label>
+                        <label for="post-image" data-lang="editor-post-image">URL изображения (необязательно)</label>
                         <input type="url" id="post-image" placeholder="https://example.com/image.jpg">
                     </div>
                     
                     <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
-                        <a href="posts.html" class="btn btn-secondary">Отмена</a>
-                        <button type="button" id="delete-post-btn" class="btn btn-danger" style="display: none;">Удалить</button>
+                        <button type="submit" class="btn btn-primary" data-lang="editor-save">Сохранить</button>
+                        <a href="posts.html" class="btn btn-secondary" data-lang="editor-cancel">Отмена</a>
+                        <button type="button" id="delete-post-btn" class="btn btn-danger" style="display: none;" data-lang="delete-post">Удалить</button>
                     </div>
                 </form>
             </div>
@@ -111,16 +132,16 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <span>KS</span>
+                    <span data-lang="logo">KS</span>
                 </div>
                 <div class="footer-links">
                     <ul>
-                        <li><a href="index.html">Главная</a></li>
-                        <li><a href="posts.html">Публикации</a></li>
+                        <li><a href="index.html" data-lang="nav-home">Главная</a></li>
+                        <li><a href="posts.html" data-lang="nav-posts">Публикации</a></li>
                     </ul>
                 </div>
                 <div class="footer-copy">
-                    <p>© <span id="current-year">2024</span> Komaru Studio. Все права защищены.</p>
+                    <p>© <span id="current-year">2024</span> <span data-lang="footer-copyright">Komaru Studio. Все права защищены.</span></p>
                 </div>
             </div>
         </div>
@@ -130,153 +151,101 @@
     <div id="delete-confirm-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Подтверждение удаления</h3>
+                <h3 data-lang="confirm-delete-title">Подтверждение удаления</h3>
             </div>
             <div class="modal-body">
-                <p>Вы действительно хотите удалить эту публикацию? Это действие нельзя отменить.</p>
+                <p data-lang="confirm-delete-text">Вы действительно хотите удалить эту публикацию? Это действие нельзя отменить.</p>
             </div>
             <div class="modal-footer">
-                <button id="confirm-delete-btn" class="btn btn-danger">Да, удалить</button>
-                <button id="cancel-delete-btn" class="btn btn-secondary">Отмена</button>
+                <button id="confirm-delete-btn" class="btn btn-danger" data-lang="confirm-delete-yes">Да, удалить</button>
+                <button id="cancel-delete-btn" class="btn btn-secondary" data-lang="confirm-delete-cancel">Отмена</button>
             </div>
         </div>
     </div>
 
     <!-- Подключение скриптов -->
+    <script src="js/translations.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/post-manager.js"></script>
     <script src="js/notifications.js"></script>
     <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-        
-        // Инициализация темы
-        const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
-        document.body.className = `${savedTheme}-theme`;
-        
-        const themeToggleBtn = document.getElementById('theme-toggle-btn');
-        if (themeToggleBtn) {
-            themeToggleBtn.addEventListener('click', () => {
-                const currentTheme = document.body.className.includes('light') ? 'light' : 'dark';
-                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-                document.body.className = `${newTheme}-theme`;
-                localStorage.setItem('portfolio-theme', newTheme);
-            });
-        }
-
-        // Инициализация функционала удаления
-        const deleteBtn = document.getElementById('delete-post-btn');
-        const confirmModal = document.getElementById('delete-confirm-modal');
-        const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
-        const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
-        const postIdInput = document.getElementById('post-id');
-        
-        // Показываем кнопку удаления только при редактировании существующей публикации
-        if (postIdInput && postIdInput.value) {
-            deleteBtn.style.display = 'inline-flex';
-        }
-        
-        // Обработчик открытия модального окна подтверждения
-        deleteBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            confirmModal.style.display = 'flex';
-        });
-        
-        // Обработчик закрытия модального окна
-        cancelDeleteBtn.addEventListener('click', function() {
-            confirmModal.style.display = 'none';
-        });
-        
-        // Обработчик подтверждения удаления
-        confirmDeleteBtn.addEventListener('click', function() {
-            const postId = postIdInput.value;
-            if (postId && window.PostManager) {
-                window.PostManager.deletePost(postId, function() {
-                    window.Notifications.redirect('Публикация успешно удалена', 'success', 'posts.html');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Установка текущего года
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Инициализация переводов если они доступны
+            if (window.TranslationSystem && typeof window.TranslationSystem.initLanguage === 'function') {
+                window.TranslationSystem.initLanguage();
+            }
+            
+            // Инициализация темы
+            const themeToggleBtn = document.getElementById('theme-toggle-btn');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', function() {
+                    if (document.documentElement.classList.contains('light-theme')) {
+                        document.documentElement.classList.remove('light-theme');
+                        document.documentElement.classList.add('dark-theme');
+                        localStorage.setItem('portfolio-theme', 'dark');
+                    } else {
+                        document.documentElement.classList.remove('dark-theme');
+                        document.documentElement.classList.add('light-theme');
+                        localStorage.setItem('portfolio-theme', 'light');
+                    }
                 });
             }
-            confirmModal.style.display = 'none';
-        });
-
-        // Проверка при загрузке страницы
-        document.addEventListener('DOMContentLoaded', function() {
-            // При загрузке страницы проверяем, есть ли ID публикации
-            setTimeout(() => {
-                const postId = document.getElementById('post-id').value;
-                if (postId) {
-                    document.getElementById('delete-post-btn').style.display = 'inline-flex';
-                }
-            }, 500); // Небольшая задержка, чтобы форма успела заполниться
-        });
-
-        // Также подключаем анимированные уведомления для формы отправки
-        document.getElementById('post-form').addEventListener('submit', function(e) {
-            // Предотвращаем дефолтное поведение формы, чтобы использовать наш обработчик
-            e.preventDefault();
             
-            // Получаем данные из формы
-            const postId = document.getElementById('post-id').value;
-            const title = document.getElementById('post-title').value;
-            const preview = document.getElementById('post-preview').value;
-            const content = document.getElementById('post-content').value;
-            const imageUrl = document.getElementById('post-image').value;
+            // Инициализация функционала удаления
+            const deleteBtn = document.getElementById('delete-post-btn');
+            const confirmModal = document.getElementById('delete-confirm-modal');
+            const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+            const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+            const postIdInput = document.getElementById('post-id');
             
-            // Проверяем заполнение обязательных полей
-            if (!title || !preview || !content) {
-                window.Notifications.error('Пожалуйста, заполните все обязательные поля');
-                return;
+            // Показываем кнопку удаления только при редактировании существующей публикации
+            if (postIdInput && postIdInput.value) {
+                deleteBtn.style.display = 'inline-flex';
             }
             
-            // Обращаемся к PostManager для сохранения публикации
-            const currentUser = window.AuthSystem.getCurrentUser();
-            
-            // Загрузка существующих публикаций
-            const POSTS_KEY = 'komaru-posts';
-            const posts = JSON.parse(localStorage.getItem(POSTS_KEY) || '[]');
-            
-            if (postId) {
-                // Редактирование существующей публикации
-                const postIndex = posts.findIndex(p => p.id === postId);
-                
-                if (postIndex !== -1) {
-                    const post = posts[postIndex];
-                    
-                    // Обновление публикации
-                    posts[postIndex] = {
-                        ...post,
-                        title,
-                        preview,
-                        content,
-                        imageUrl,
-                        lastEdited: new Date().toISOString().split('T')[0]
-                    };
-                    
-                    // Сохранение публикаций
-                    localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
-                    
-                    // Уведомление и перенаправление
-                    window.Notifications.redirect('Публикация обновлена', 'success', 'posts.html');
-                }
-            } else {
-                // Создание новой публикации
-                const newPost = {
-                    id: Date.now().toString(),
-                    title,
-                    preview,
-                    content,
-                    imageUrl,
-                    author: currentUser.username,
-                    authorName: currentUser.name,
-                    date: new Date().toISOString().split('T')[0]
-                };
-                
-                posts.push(newPost);
-                
-                // Сохранение публикаций
-                localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
-                
-                // Уведомление и перенаправление
-                window.Notifications.redirect('Публикация создана', 'success', 'posts.html');
+            // Обработчик открытия модального окна подтверждения
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    confirmModal.style.display = 'flex';
+                });
             }
+            
+            // Обработчик закрытия модального окна
+            if (cancelDeleteBtn) {
+                cancelDeleteBtn.addEventListener('click', function() {
+                    confirmModal.style.display = 'none';
+                });
+            }
+            
+            // Обработчик подтверждения удаления
+            if (confirmDeleteBtn) {
+                confirmDeleteBtn.addEventListener('click', function() {
+                    const postId = postIdInput.value;
+                    if (postId && window.PostManager) {
+                        window.PostManager.deletePost(postId, function() {
+                            // Используем перевод для сообщения
+                            const lang = document.documentElement.lang || 'ru';
+                            let successMessage = 'Публикация успешно удалена';
+                            
+                            if (window.TranslationSystem && 
+                                window.TranslationSystem.translations && 
+                                window.TranslationSystem.translations['post-delete-success']) {
+                                successMessage = window.TranslationSystem.translations['post-delete-success'][lang];
+                            }
+                            
+                            window.Notifications.redirect(successMessage, 'success', 'posts.html');
+                        });
+                    }
+                    confirmModal.style.display = 'none';
+                });
+            }
+            
+            // Дополнительная логика страницы редактора
+            // ... остальной код страницы ...
         });
     </script>
 </body>

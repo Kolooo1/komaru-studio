@@ -431,10 +431,10 @@
                 if (deleteBtn) {
                     deleteBtn.addEventListener('click', function() {
                         const postId = this.getAttribute('data-post-id');
-                        if (postId) {
-                            const modal = document.getElementById('delete-confirm-modal');
+                if (postId) {
+                    const modal = document.getElementById('delete-confirm-modal');
                             document.getElementById('confirm-delete-btn').setAttribute('data-post-id', postId);
-                            modal.style.display = 'flex';
+                    modal.style.display = 'flex';
                         }
                     });
                 }

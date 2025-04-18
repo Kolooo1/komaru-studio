@@ -62,14 +62,14 @@
 }
 
 .posts-header .section-title {
-    margin-left: 20px;
+    margin-left: 210px;
 }
 
 .author-controls {
     width: 100%;
     display: flex;
     justify-content: flex-start;
-    margin-left: 20px;
+    margin-left: 210px;
 }
 
 .posts-container {

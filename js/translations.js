@@ -473,8 +473,6 @@ const translations = {
         'en': 'Post saved successfully',
         'zh': '文章已成功保存'
     },
-    
-    // Детальная страница публикации
     'post-detail-title': {
         'ru': 'Публикация | Komaru Studio',
         'en': 'Post | Komaru Studio',
