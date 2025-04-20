@@ -153,48 +153,62 @@
             }
         });
         
-        // Улучшения для мобильной навигации
-        const initMobileNavigation = () => {
-            // Мобильное меню
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const initMobileMenu = () => {
+            const menuBtn = document.querySelector('.mobile-menu-btn');
             const navLinks = document.querySelector('.nav-links');
-            
-            if (mobileMenuBtn && navLinks) {
-                mobileMenuBtn.addEventListener('click', function() {
+            const body = document.body;
+
+            // Create overlay if it doesn't exist
+            let overlay = document.querySelector('.mobile-menu-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'mobile-menu-overlay';
+                document.body.appendChild(overlay);
+            }
+
+            if (menuBtn && navLinks) {
+                menuBtn.addEventListener('click', () => {
+                    menuBtn.classList.toggle('active');
                     navLinks.classList.toggle('active');
-                    mobileMenuBtn.classList.toggle('active');
+                    overlay.classList.toggle('active');
                     
-                    // Блокируем/разблокируем прокрутку страницы
+                    // Toggle body scroll
                     if (navLinks.classList.contains('active')) {
-                        document.body.style.overflow = 'hidden';
+                        body.style.overflow = 'hidden';
                     } else {
-                        document.body.style.overflow = '';
+                        body.style.overflow = '';
+                    }
+                });
+
+                // Close menu when clicking overlay
+                overlay.addEventListener('click', () => {
+                    menuBtn.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    overlay.classList.remove('active');
+                    body.style.overflow = '';
+                });
+
+                // Close menu when clicking a menu link
+                const menuLinks = navLinks.querySelectorAll('a');
+                menuLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        menuBtn.classList.remove('active');
+                        navLinks.classList.remove('active');
+                        overlay.classList.remove('active');
+                        body.style.overflow = '';
+                    });
+                });
+
+                // Close menu on resize if larger than mobile breakpoint
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+                        menuBtn.classList.remove('active');
+                        navLinks.classList.remove('active');
+                        overlay.classList.remove('active');
+                        body.style.overflow = '';
                     }
                 });
             }
-            
-            // Скрытие/показ навигации при скролле
-            let lastScrollTop = 0;
-            const header = document.querySelector('header');
-            const scrollThreshold = 10;
-            
-            window.addEventListener('scroll', function() {
-                // Только для мобильных устройств
-                if (window.innerWidth <= 768) {
-                    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-                    
-                    // Скрываем навигацию при скролле вниз и показываем при скролле вверх
-                    if (currentScroll > lastScrollTop && currentScroll > scrollThreshold) {
-                        // Скролл вниз
-                        header.classList.add('nav-hidden');
-                    } else {
-                        // Скролл вверх
-                        header.classList.remove('nav-hidden');
-                    }
-                    
-                    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
-                }
-            }, {passive: true});
         };
         
         // Предотвращаем двойную инициализацию формы
@@ -208,7 +222,7 @@
         // Принудительно отобразить блок входа сразу после загрузки страницы
         window.addEventListener('DOMContentLoaded', function() {
             // Инициализируем мобильную навигацию
-            initMobileNavigation();
+            initMobileMenu();
             
             // Гарантируем видимость блока входа
             const mainContent = document.querySelector('.main-content');
