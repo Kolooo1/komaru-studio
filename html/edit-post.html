@@ -199,6 +199,68 @@
             });
         }
 
+        // Инициализация мобильного меню
+        const initMobileMenu = () => {
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            const overlay = document.querySelector('.mobile-menu-overlay') || createOverlay();
+            
+            // Создание оверлея для мобильного меню, если его нет
+            function createOverlay() {
+                const overlay = document.createElement('div');
+                overlay.className = 'mobile-menu-overlay';
+                document.body.appendChild(overlay);
+                return overlay;
+            }
+            
+            if (mobileMenuBtn && navLinks) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenuBtn.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                    
+                    // Блокировка прокрутки страницы при открытом меню
+                    if (navLinks.classList.contains('active')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                });
+                
+                // Закрытие меню при клике на оверлей
+                overlay.addEventListener('click', function() {
+                    mobileMenuBtn.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+                
+                // Закрытие меню при клике на ссылки
+                const menuLinks = navLinks.querySelectorAll('a');
+                menuLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenuBtn.classList.remove('active');
+                        navLinks.classList.remove('active');
+                        overlay.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+                
+                // Закрытие меню при ресайзе окна (если ширина больше мобильной)
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+                        mobileMenuBtn.classList.remove('active');
+                        navLinks.classList.remove('active');
+                        overlay.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+        };
+        
+        // Вызываем инициализацию мобильного меню
+        initMobileMenu();
+
         // Инициализация функционала удаления
         const deleteBtn = document.getElementById('delete-post-btn');
         const confirmModal = document.getElementById('delete-confirm-modal');
