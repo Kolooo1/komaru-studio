@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Обработчик для формы входа
     const loginForm = document.getElementById('login-form');
-    if (loginForm) {
+    if (loginForm && !loginForm.hasAttribute('data-custom-handler')) {
         loginForm.addEventListener('submit', handleLogin);
     }
     
@@ -194,5 +194,6 @@ function getCurrentUser() {
 window.AuthSystem = {
     getCurrentUser,
     isAdmin: () => currentUser && currentUser.role === 'admin',
-    isAuthor: () => currentUser && (currentUser.role === 'admin' || currentUser.role === 'author')
+    isAuthor: () => currentUser && (currentUser.role === 'admin' || currentUser.role === 'author'),
+    handleLogin: handleLogin
 }; 

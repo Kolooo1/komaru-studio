@@ -78,7 +78,7 @@
             <div class="container">
                 <div class="auth-container" style="display:block !important; visibility:visible !important; opacity:1 !important; position:relative; z-index:100; background-color:var(--color-background-secondary); box-shadow:0 8px 30px rgba(0,0,0,0.15);">
                     <h1 class="auth-title" data-lang="login-title">Вход в систему</h1>
-                    <form id="login-form" class="auth-form">
+                    <form id="login-form" class="auth-form" data-custom-handler="true">
                         <div class="form-group">
                             <label for="username" data-lang="login-username">Имя пользователя</label>
                             <input type="text" id="username" required>
@@ -163,6 +163,14 @@
                 mobileMenuBtn.classList.toggle('menu-open');
             });
         }
+        
+        // Предотвращаем двойную инициализацию формы
+        window.AuthSystem = window.AuthSystem || {};
+        const originalAuthHandleLogin = window.AuthSystem.handleLogin;
+        window.AuthSystem.handleLogin = function() {
+            console.log('Используется встроенный обработчик формы');
+            return false;
+        };
         
         // Принудительно отобразить блок входа сразу после загрузки страницы
         window.addEventListener('DOMContentLoaded', function() {
@@ -316,7 +324,7 @@
         margin: 15px 0 !important;
         font-size: 14px !important;
         text-align: center !important;
-        display: none !important; /* По умолчанию скрыт */
+        display: block !important;
     }
     
     .auth-message.error {
@@ -418,6 +426,12 @@
     #password {
         padding-right: 45px;
         width: 100%;
+    }
+    
+    /* Стиль для кнопки входа */
+    #login-form .btn {
+        width: 100% !important;
+        margin-top: 10px !important;
     }
     </style>
 </body>
