@@ -16,6 +16,16 @@ const defaultPosts = [
         authorName: 'Администратор',
         date: '2024-06-01',
         imageUrl: ''
+    },
+    {
+        id: 'permanent',
+        title: 'Заголовок постоянной публикации',
+        preview: 'Краткое описание постоянной публикации. Этот пост всегда будет отображаться на странице.',
+        content: 'Полное содержание постоянной публикации. Вы можете отредактировать заголовок и описание по вашему усмотрению.',
+        author: 'admin',
+        authorName: 'Администратор',
+        date: '2025-06-15',
+        imageUrl: 'https://i.yapx.ru/Yvio3.png'
     }
 ];
 
@@ -43,9 +53,30 @@ document.addEventListener('DOMContentLoaded', function() {
  * Проверка наличия постов и создание дефолтных если нужно
  */
 function initializePosts() {
-    const posts = localStorage.getItem(POSTS_KEY);
-    if (!posts) {
-        localStorage.setItem(POSTS_KEY, JSON.stringify(defaultPosts));
+    let posts = JSON.parse(localStorage.getItem(POSTS_KEY) || '[]');
+    let modified = false;
+    
+    // Если нет постов, используем дефолтные
+    if (posts.length === 0) {
+        posts = [...defaultPosts];
+        modified = true;
+    } else {
+        // Проверяем наличие постоянной публикации
+        const permanentPostExists = posts.some(post => post.id === 'permanent');
+        
+        // Если постоянной публикации нет, добавляем её
+        if (!permanentPostExists) {
+            const permanentPost = defaultPosts.find(post => post.id === 'permanent');
+            if (permanentPost) {
+                posts.push(permanentPost);
+                modified = true;
+            }
+        }
+    }
+    
+    // Сохраняем посты, если были изменения
+    if (modified) {
+        localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
     }
 }
 
@@ -149,15 +180,29 @@ function handlePostSubmit(e) {
                 return;
             }
             
-            // Обновление публикации
-            posts[postIndex] = {
-                ...post,
-                title,
-                preview,
-                content,
-                imageUrl,
-                lastEdited: new Date().toISOString().split('T')[0]
-            };
+            // Особая обработка для постоянной публикации
+            if (postId === 'permanent') {
+                // Сохраняем id и изображение, обновляем остальные поля
+                posts[postIndex] = {
+                    ...post,
+                    title,
+                    preview,
+                    content,
+                    // Не меняем изображение для постоянной публикации
+                    imageUrl: post.imageUrl,
+                    lastEdited: new Date().toISOString().split('T')[0]
+                };
+            } else {
+                // Обычное обновление публикации
+                posts[postIndex] = {
+                    ...post,
+                    title,
+                    preview,
+                    content,
+                    imageUrl,
+                    lastEdited: new Date().toISOString().split('T')[0]
+                };
+            }
         }
     } else {
         // Создание новой публикации
@@ -224,7 +269,34 @@ function loadPostForEditing() {
     document.getElementById('post-title').value = post.title;
     document.getElementById('post-preview').value = post.preview;
     document.getElementById('post-content').value = post.content;
-    document.getElementById('post-image').value = post.imageUrl || '';
+    
+    const imageUrlInput = document.getElementById('post-image');
+    imageUrlInput.value = post.imageUrl || '';
+    
+    // Особая обработка для постоянной публикации
+    if (postId === 'permanent') {
+        // Блокируем поле изображения для постоянной публикации
+        imageUrlInput.disabled = true;
+        imageUrlInput.title = 'Изображение нельзя изменить для этой публикации';
+        
+        // Добавляем поясняющее сообщение
+        const imageGroup = imageUrlInput.closest('.form-group');
+        if (imageGroup) {
+            const helpText = document.createElement('div');
+            helpText.className = 'form-help-text';
+            helpText.style.fontSize = '0.85em';
+            helpText.style.marginTop = '5px';
+            helpText.style.color = 'var(--color-text-secondary)';
+            helpText.textContent = 'Изображение для этой публикации не может быть изменено.';
+            imageGroup.appendChild(helpText);
+        }
+        
+        // Также скроем кнопку удаления, если она есть
+        const deleteBtn = document.getElementById('delete-post-btn');
+        if (deleteBtn) {
+            deleteBtn.style.display = 'none';
+        }
+    }
 }
 
 /**
@@ -248,22 +320,34 @@ function formatDate(dateString) {
  */
 function deletePost(postId, callback) {
     // Проверка авторизации
-    if (!window.AuthSystem || !window.AuthSystem.isAuthor()) {
-        if (window.Notifications) {
-            window.Notifications.error('У вас нет прав для удаления публикаций');
-        } else {
-            alert('У вас нет прав для удаления публикаций');
-        }
-        return;
-    }
+    if (!window.AuthSystem) return;
     
     const currentUser = window.AuthSystem.getCurrentUser();
     const isAdmin = window.AuthSystem.isAdmin();
     
-    // Загрузка существующих публикаций
+    if (!currentUser) {
+        if (window.Notifications) {
+            window.Notifications.error('Необходимо войти в систему');
+        } else {
+            alert('Необходимо войти в систему');
+        }
+        return;
+    }
+    
+    // Защита постоянной публикации от удаления
+    if (postId === 'permanent') {
+        if (window.Notifications) {
+            window.Notifications.error('Эта публикация не может быть удалена');
+        } else {
+            alert('Эта публикация не может быть удалена');
+        }
+        return;
+    }
+    
+    // Загрузка публикаций
     const posts = JSON.parse(localStorage.getItem(POSTS_KEY) || '[]');
     
-    // Поиск публикации
+    // Поиск индекса публикации
     const postIndex = posts.findIndex(p => p.id === postId);
     
     if (postIndex === -1) {
