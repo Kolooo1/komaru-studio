@@ -24,7 +24,7 @@
     <!-- Стилизованная буква D -->
     <path d="M-15,-25 L5,-25 C15,-25 25,-15 25,0 C25,15 15,25 5,25 L-15,25 Z" 
           fill="none" stroke="#e1e1e1" stroke-width="3"/>
-          
+  
     <!-- Перекрестие прицела - тонкий намек на шутер -->
     <line x1="-40" y1="0" x2="40" y2="0" stroke="#6c9bd9" stroke-width="1" opacity="0.8"/>
     <line x1="0" y1="-40" x2="0" y2="40" stroke="#6c9bd9" stroke-width="1" opacity="0.8"/>

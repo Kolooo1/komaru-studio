@@ -43,9 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-/**
- * Проверка наличия постов и создание дефолтных если нужно
- */
 function initializePosts() {
     let posts = JSON.parse(localStorage.getItem(POSTS_KEY) || '[]');
     let modified = false;
@@ -55,27 +52,14 @@ function initializePosts() {
         posts = [...defaultPosts];
         modified = true;
     } else {
-        // Ищем постоянную публикацию в массиве
-        const permanentPostIndex = posts.findIndex(post => post.id === 'permanent');
-        const defaultPermanentPost = defaultPosts.find(post => post.id === 'permanent');
+        // Проверяем наличие постоянной публикации
+        const permanentPostExists = posts.some(post => post.id === 'permanent');
         
-        if (permanentPostIndex === -1) {
-            // Если постоянной публикации нет, добавляем её
-            if (defaultPermanentPost) {
-                posts.push(defaultPermanentPost);
-                modified = true;
-            }
-        } else {
-            // Если постоянная публикация существует, обновляем её контент
-            // из defaultPosts, сохраняя пользовательские изменения в title и preview
-            const userPost = posts[permanentPostIndex];
-            if (defaultPermanentPost) {
-                posts[permanentPostIndex] = {
-                    ...defaultPermanentPost,
-                    // Сохраняем пользовательские изменения, если они были
-                    title: userPost.title || defaultPermanentPost.title,
-                    preview: userPost.preview || defaultPermanentPost.preview
-                };
+        // Если постоянной публикации нет, добавляем её
+        if (!permanentPostExists) {
+            const permanentPost = defaultPosts.find(post => post.id === 'permanent');
+            if (permanentPost) {
+                posts.push(permanentPost);
                 modified = true;
             }
         }
@@ -420,60 +404,8 @@ function getPost(postId, callback) {
     return post || null;
 }
 
-/**
- * Сброс данных постоянной публикации для обновления из кода
- */
-function resetPostData() {
-    // Получаем текущие посты из localStorage
-    let posts = JSON.parse(localStorage.getItem(POSTS_KEY) || '[]');
-    
-    // Ищем постоянную публикацию
-    const permanentPostIndex = posts.findIndex(post => post.id === 'permanent');
-    const defaultPermanentPost = defaultPosts.find(post => post.id === 'permanent');
-    
-    if (permanentPostIndex !== -1 && defaultPermanentPost) {
-        // Обновляем содержимое постоянной публикации
-        posts[permanentPostIndex] = {
-            ...defaultPermanentPost
-        };
-        
-        // Сохраняем обновленные посты
-        localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
-        
-        // Выводим сообщение об успешном обновлении
-        console.log('Постоянная публикация обновлена из кода.');
-        return true;
-    } else if (defaultPermanentPost) {
-        // Если постоянной публикации нет, добавляем её
-        posts.push(defaultPermanentPost);
-        localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
-        console.log('Постоянная публикация добавлена.');
-        return true;
-    }
-    
-    console.log('Не удалось найти постоянную публикацию для обновления.');
-    return false;
-}
-
-/**
- * Очистка всех публикаций и повторная инициализация
- */
-function clearAllPosts() {
-    // Удаляем все публикации из localStorage
-    localStorage.removeItem(POSTS_KEY);
-    
-    // Инициализируем посты заново
-    initializePosts();
-    
-    // Выводим сообщение об успешном обновлении
-    console.log('Все публикации сброшены до значений по умолчанию.');
-    return true;
-}
-
 // Добавляем функцию в экспорт
 window.PostManager = {
     deletePost,
-    getPost,
-    resetPostData,
-    clearAllPosts
+    getPost
 }; 
