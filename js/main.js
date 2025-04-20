@@ -6,6 +6,9 @@
 // Константа для ключа localStorage
 const THEME_KEY = 'portfolio-theme';
 
+// Константа для хранения выбранного языка
+const LANGUAGE_KEY = 'komaru_selected_language';
+
 /**
  * Инициализация основных компонентов сайта
  */
@@ -33,6 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Улучшения мобильного опыта
     initMobileExperience();
+    
+    // Инициализация выпадающего списка языков
+    initLangDropdown();
 });
 
 /**
@@ -328,59 +334,57 @@ function initScrollEvents() {
 function initMobileMenu() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
+    let mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
     
     // Создаем оверлей для мобильного меню, если его нет
-    let mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
     if (!mobileMenuOverlay) {
         mobileMenuOverlay = document.createElement('div');
         mobileMenuOverlay.classList.add('mobile-menu-overlay');
         document.body.appendChild(mobileMenuOverlay);
     }
     
-    if (mobileMenuBtn && navLinks) {
-        // Обработчик клика по кнопке
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenuBtn.classList.toggle('active');
-            navLinks.classList.toggle('active');
-            mobileMenuOverlay.classList.toggle('active');
-            
-            // Блокировка скролла страницы при открытом меню
-            if (navLinks.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
-        });
+    // Обработчик клика по кнопке мобильного меню
+    mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileMenuBtn.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        mobileMenuOverlay.classList.toggle('active');
         
-        // Закрытие меню при клике на оверлей
-        mobileMenuOverlay.addEventListener('click', function() {
+        if (mobileMenuBtn.classList.contains('active')) {
+            document.body.style.overflow = 'hidden'; // Блокируем прокрутку страницы
+        } else {
+            document.body.style.overflow = ''; // Разблокируем прокрутку
+        }
+    });
+    
+    // Закрываем меню при клике по оверлею
+    mobileMenuOverlay.addEventListener('click', () => {
+        mobileMenuBtn.classList.remove('active');
+        navLinks.classList.remove('active');
+        mobileMenuOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+    
+    // Закрываем меню при клике по ссылке меню
+    const menuLinks = navLinks.querySelectorAll('a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
             mobileMenuBtn.classList.remove('active');
             navLinks.classList.remove('active');
             mobileMenuOverlay.classList.remove('active');
             document.body.style.overflow = '';
         });
-        
-        // Закрытие меню при клике на ссылку
-        const menuLinks = navLinks.querySelectorAll('a');
-        menuLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                mobileMenuBtn.classList.remove('active');
-                navLinks.classList.remove('active');
-                mobileMenuOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
-        
-        // Закрытие меню при ресайзе окна выше мобильной ширины
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
-                mobileMenuBtn.classList.remove('active');
-                navLinks.classList.remove('active');
-                mobileMenuOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-    }
+    });
+    
+    // Закрываем меню при изменении размера окна, если ширина > 768px
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && mobileMenuBtn.classList.contains('active')) {
+            mobileMenuBtn.classList.remove('active');
+            navLinks.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
 }
 
 /**
@@ -551,6 +555,119 @@ function smoothScrollForInternalLinks() {
         });
     });
 }
+
+// Функция инициализации выпадающего списка языков
+function initLangDropdown() {
+    const langDropdown = document.querySelector('.lang-dropdown');
+    const langButton = document.querySelector('.lang-dropdown-btn');
+    const langContent = document.querySelector('.lang-dropdown-content');
+    const langOptions = document.querySelectorAll('.lang-option');
+    const currentLangText = document.querySelector('.current-lang-text');
+    
+    if (!langButton || !langContent) return;
+    
+    // Устанавливаем язык из localStorage или используем значение по умолчанию
+    const savedLanguage = localStorage.getItem(LANGUAGE_KEY) || 'ru';
+    updateLanguageUI(savedLanguage);
+    
+    // Обработчик клика на кнопку выбора языка
+    langButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        langDropdown.classList.toggle('active');
+        
+        // Закрываем мобильное меню, если оно открыто
+        const mobileMenu = document.querySelector('.nav-links');
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+        
+        if (mobileMenu && mobileMenu.classList.contains('active')) {
+            mobileMenu.classList.remove('active');
+            mobileMenuBtn.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Обработчик клика на каждую опцию языка
+    langOptions.forEach(option => {
+        option.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const lang = option.getAttribute('data-lang');
+            updateLanguageUI(lang);
+            updateLanguage(lang);
+            langDropdown.classList.remove('active');
+        });
+    });
+    
+    // Закрываем выпадающий список при клике вне его
+    document.addEventListener('click', (e) => {
+        if (langDropdown.classList.contains('active')) {
+            langDropdown.classList.remove('active');
+        }
+    });
+    
+    // Функция обновления UI языка
+    function updateLanguageUI(lang) {
+        // Обновляем текст кнопки
+        const selectedOption = document.querySelector(`.lang-option[data-lang="${lang}"]`);
+        if (selectedOption && currentLangText) {
+            currentLangText.textContent = selectedOption.querySelector('.lang-text').textContent;
+        }
+        
+        // Обновляем активную опцию
+        langOptions.forEach(opt => {
+            if (opt.getAttribute('data-lang') === lang) {
+                opt.classList.add('active');
+            } else {
+                opt.classList.remove('active');
+            }
+        });
+        
+        // Сохраняем выбранный язык
+        localStorage.setItem(LANGUAGE_KEY, lang);
+    }
+}
+
+// Функция для обновления языка на странице
+function updateLanguage(lang) {
+    console.log(`Изменение языка на: ${lang}`);
+    
+    // Здесь добавить логику для переключения текстов и перевода страницы
+    
+    // Пример: загрузка языковых файлов или смена текстов по DOM
+    // const translations = {
+    //     ru: { ... },
+    //     en: { ... },
+    //     de: { ... }
+    // };
+    // 
+    // updateTexts(translations[lang]);
+}
+
+// Функция для обновления всех текстов на странице
+function updateTexts(texts) {
+    // Пример реализации
+    // document.querySelectorAll('[data-translate]').forEach(element => {
+    //     const key = element.getAttribute('data-translate');
+    //     if (texts[key]) {
+    //         element.textContent = texts[key];
+    //     }
+    // });
+}
+
+// Функция инициализации всех компонентов
+function initComponents() {
+    initTheme(); // Инициализация темы
+    updateYear(); // Обновление года в футере
+    initMobileMenu(); // Инициализация мобильного меню
+    initScrollNavigation(); // Инициализация навигации
+    initLangDropdown(); // Инициализация выпадающего списка языков
+    initAnimations(); // Инициализация анимаций
+    initLoginStatus(); // Инициализация статуса логина
+}
+
+// Запуск инициализации после загрузки DOM
+document.addEventListener('DOMContentLoaded', initComponents);
 
 // Экспорт функций для тестирования
 if (typeof module !== 'undefined' && module.exports) {
