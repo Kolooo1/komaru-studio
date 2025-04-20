@@ -687,74 +687,100 @@ nav {
 
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: var(--spacing-8);
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-5);
+    margin-top: var(--spacing-6);
 }
 
 .project-card {
-    transition: all 0.3s ease;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: var(--border-radius-lg);
     overflow: hidden;
-    box-shadow: var(--shadow-md);
-    background-color: var(--color-background);
+    background-color: var(--surface-color);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .project-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-xl);
-    border-color: var(--color-primary-hover);
+    box-shadow: var(--shadow-md);
 }
 
 .project-image {
-    width: 100%;
-    height: 220px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
     overflow: hidden;
-    position: relative;
+    background-color: var(--surface-secondary);
 }
 
-.project-image .image-placeholder {
+.project-image object,
+.project-image img {
+    width: 100%;
     height: 100%;
-    border-radius: 0;
+    object-fit: contain;
 }
 
 .project-info {
-    padding: var(--spacing-8);
+    padding: var(--spacing-4);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .project-info h3 {
-    font-size: var(--font-size-2xl);
     margin-bottom: var(--spacing-3);
-    transition: color var(--transition-normal);
+    font-size: calc(1.1rem + 0.2vw);
+    color: var(--text-color);
 }
 
 .project-info p {
-    font-size: var(--font-size-base);
-    color: var(--color-foreground-muted);
-    margin-bottom: var(--spacing-5);
-    line-height: var(--line-height-loose);
+    margin-bottom: var(--spacing-4);
+    flex-grow: 1;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 .project-tags {
+    margin-bottom: var(--spacing-4);
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-2);
-    margin-bottom: var(--spacing-6);
 }
 
 .project-tag {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 15px;
+    padding: 4px 10px;
     display: inline-block;
-    padding: var(--spacing-1) var(--spacing-3);
-    background-color: var(--color-accent-muted);
-    color: var(--color-accent);
-    border-radius: var(--radius-full);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
+    font-size: 0.85rem;
+}
+
+.project-tag:nth-child(2) {
+    background-color: var(--secondary-color);
+}
+
+.project-tag:nth-child(3) {
+    background-color: var(--accent-color);
 }
 
 .project-links {
     display: flex;
+    justify-content: flex-start;
     gap: var(--spacing-3);
+    margin-top: auto;
+    flex-wrap: wrap;
+}
+
+.project-links .btn {
+    min-width: 70px;
+    text-align: center;
 }
 
 /* Секция Контакт */
@@ -1163,12 +1189,36 @@ footer {
         grid-template-columns: 1fr;
         gap: var(--spacing-12);
     }
+    
+    /* Исправления для контента в целом */
+    .container {
+        width: 100%;
+        max-width: 100%;
+        padding-left: var(--container-padding);
+        padding-right: var(--container-padding);
+    }
+    
+    /* Исправления для секций */
+    section {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    
+    /* Улучшение для изображений */
+    img, object {
+        max-width: 100%;
+        height: auto;
+    }
 }
 
 @media (max-width: 480px) {
     :root {
         --container-padding: 1rem;
         --font-size-4xl: 2rem;
+        --font-size-3xl: 1.75rem;
+        --font-size-2xl: 1.5rem;
+        --font-size-xl: 1.25rem;
+        --font-size-lg: 1.125rem;
     }
     
     .hero-buttons {
@@ -1215,6 +1265,83 @@ footer {
     
     section {
         padding: var(--spacing-12) 0;
+    }
+    
+    /* Улучшения для маленьких экранов */
+    .hero-title {
+        font-size: var(--font-size-3xl);
+        line-height: 1.3;
+    }
+    
+    .hero-subtitle {
+        font-size: var(--font-size-base);
+    }
+    
+    /* Улучшения для навигации */
+    .logo {
+        font-size: var(--font-size-lg);
+    }
+    
+    /* Доработка видимой области мобильного меню */
+    .nav-links {
+        width: 85%;
+        max-width: 300px;
+        padding: 70px 1.5rem 1.5rem;
+    }
+    
+    /* Лучшие отступы для контента */
+    .project-info, 
+    .about-text p,
+    .contact-info p {
+        font-size: var(--font-size-base);
+    }
+}
+
+/* Дополнительные исправления для очень маленьких экранов */
+@media (max-width: 320px) {
+    :root {
+        --container-padding: 0.75rem;
+        --font-size-3xl: 1.5rem;
+        --font-size-2xl: 1.3rem;
+        --font-size-xl: 1.15rem;
+    }
+    
+    .nav-links {
+        width: 100%;
+        max-width: none;
+    }
+    
+    .mobile-menu-btn span {
+        width: 20px;
+    }
+    
+    .hero-title {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .section-title {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .team-member {
+        padding: var(--spacing-4);
+    }
+    
+    .member-photo-placeholder {
+        width: 100px;
+        height: 100px;
+    }
+    
+    /* Еще меньшие отступы */
+    .container {
+        padding-left: var(--container-padding);
+        padding-right: var(--container-padding);
+    }
+    
+    /* Уменьшение размеров кнопок */
+    .btn {
+        padding: var(--spacing-2) var(--spacing-4);
+        font-size: 0.9rem;
     }
 }
 
@@ -1656,4 +1783,154 @@ section {
 .mobile-menu-overlay.active {
     opacity: 1;
     visibility: visible;
+}
+
+/* Общие стили для адаптивности */
+img, video, object, embed, iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Медиа-запросы для улучшения мобильной версии */
+@media screen and (max-width: 768px) {
+    .container {
+        padding-left: var(--container-padding);
+        padding-right: var(--container-padding);
+    }
+    
+    section {
+        padding: var(--spacing-10) 0;
+    }
+    
+    .projects-grid, .project-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-6);
+    }
+    
+    .project-card {
+        max-width: 100%;
+    }
+    
+    .hero-content {
+        padding-right: 0;
+        text-align: center;
+    }
+    
+    .hero-text {
+        font-size: var(--font-size-lg);
+    }
+    
+    .hero-img {
+        margin-top: var(--spacing-6);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    :root {
+        --container-padding: 1rem;
+        --font-size-3xl: 2rem;
+        --font-size-2xl: 1.5rem;
+        --font-size-xl: 1.25rem;
+        --font-size-lg: 1.125rem;
+    }
+    
+    .container {
+        padding-left: var(--container-padding);
+        padding-right: var(--container-padding);
+    }
+    
+    .section-title {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .projects-grid, .project-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .team-grid, .team-members {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-form {
+        padding: var(--spacing-6);
+    }
+    
+    .project-info {
+        padding: var(--spacing-4);
+    }
+    
+    .project-tags {
+        margin-bottom: var(--spacing-4);
+    }
+    
+    .project-links {
+        flex-wrap: wrap;
+        gap: var(--spacing-2);
+    }
+    
+    .project-links .btn {
+        min-width: 100px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    :root {
+        --container-padding: 0.75rem;
+        --font-size-3xl: 1.75rem;
+        --font-size-2xl: 1.4rem;
+        --font-size-xl: 1.15rem;
+        --font-size-lg: 1rem;
+        --font-size-base: 0.9rem;
+    }
+    
+    .btn {
+        padding: var(--spacing-2) var(--spacing-4);
+        font-size: 0.9rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        gap: var(--spacing-3);
+    }
+    
+    .hero-buttons .btn {
+        width: 100%;
+    }
+    
+    .project-image {
+        height: 150px;
+    }
+}
+
+/* Дополнительные медиа-запросы для ширины экрана до 380px */
+@media screen and (max-width: 380px) {
+    .container {
+        padding-left: var(--spacing-3);
+        padding-right: var(--spacing-3);
+    }
+
+    .section-title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .hero-content h1 {
+        font-size: var(--font-size-3xl);
+    }
+
+    .hero-content p {
+        font-size: var(--font-size-md);
+    }
+
+    .project-card {
+        padding: var(--spacing-3);
+    }
+
+    .contact-form {
+        padding: var(--spacing-4);
+    }
+
+    .btn {
+        padding: var(--spacing-2) var(--spacing-3);
+        font-size: var(--font-size-sm);
+    }
 } 
