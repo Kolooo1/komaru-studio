@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Инициализация логина и статуса авторизации
     initLoginStatus();
+    
+    // Улучшения мобильного опыта
+    initMobileExperience();
 });
 
 /**
@@ -326,22 +329,22 @@ function initMobileMenu() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navLinks = document.querySelector('.nav-links');
     
-    // Создаем оверлей для мобильного меню, если его еще нет
-    let overlay = document.querySelector('.mobile-menu-overlay');
-    if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.className = 'mobile-menu-overlay';
-        document.body.appendChild(overlay);
+    // Создаем оверлей для мобильного меню, если его нет
+    let mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+    if (!mobileMenuOverlay) {
+        mobileMenuOverlay = document.createElement('div');
+        mobileMenuOverlay.classList.add('mobile-menu-overlay');
+        document.body.appendChild(mobileMenuOverlay);
     }
     
-    // Обработчик клика по кнопке меню
     if (mobileMenuBtn && navLinks) {
+        // Обработчик клика по кнопке
         mobileMenuBtn.addEventListener('click', function() {
             mobileMenuBtn.classList.toggle('active');
             navLinks.classList.toggle('active');
-            overlay.classList.toggle('active');
+            mobileMenuOverlay.classList.toggle('active');
             
-            // Блокируем/разблокируем прокрутку страницы
+            // Блокировка скролла страницы при открытом меню
             if (navLinks.classList.contains('active')) {
                 document.body.style.overflow = 'hidden';
             } else {
@@ -350,34 +353,34 @@ function initMobileMenu() {
         });
         
         // Закрытие меню при клике на оверлей
-        overlay.addEventListener('click', function() {
+        mobileMenuOverlay.addEventListener('click', function() {
             mobileMenuBtn.classList.remove('active');
             navLinks.classList.remove('active');
-            overlay.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
             document.body.style.overflow = '';
         });
         
-        // Закрытие меню при клике на пункт меню
+        // Закрытие меню при клике на ссылку
         const menuLinks = navLinks.querySelectorAll('a');
         menuLinks.forEach(link => {
             link.addEventListener('click', function() {
                 mobileMenuBtn.classList.remove('active');
                 navLinks.classList.remove('active');
-                overlay.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
                 document.body.style.overflow = '';
             });
         });
+        
+        // Закрытие меню при ресайзе окна выше мобильной ширины
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+                mobileMenuBtn.classList.remove('active');
+                navLinks.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
     }
-    
-    // Закрытие меню при изменении размера окна
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768 && navLinks && navLinks.classList.contains('active')) {
-            mobileMenuBtn.classList.remove('active');
-            navLinks.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
 }
 
 /**
@@ -434,6 +437,119 @@ function initLoginStatus() {
     // Обновляем обе ссылки
     updateLoginLink(loginStatusElement);
     updateLoginLink(footerLoginStatusElement);
+}
+
+/**
+ * Улучшения мобильного опыта
+ */
+function initMobileExperience() {
+    // Скрытие/показ навигации при скролле
+    let lastScrollTop = 0;
+    const header = document.querySelector('header');
+    const scrollThreshold = 10;
+    
+    window.addEventListener('scroll', function() {
+        // Только для мобильных устройств
+        if (window.innerWidth <= 768) {
+            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Скрываем навигацию при скролле вниз и показываем при скролле вверх
+            if (currentScroll > lastScrollTop && currentScroll > scrollThreshold) {
+                // Скролл вниз
+                header.classList.add('nav-hidden');
+            } else {
+                // Скролл вверх
+                header.classList.remove('nav-hidden');
+            }
+            
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+        }
+    }, {passive: true});
+    
+    // Закрытие мобильного меню при клике по ссылкам
+    const mobileLinks = document.querySelectorAll('.nav-links a');
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+    
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+                // Закрываем меню при клике на ссылку
+                if (navLinks) navLinks.classList.remove('active');
+                if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
+                if (mobileMenuOverlay) mobileMenuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    
+    // Активное состояние ссылок навигации
+    highlightActiveNavLink();
+    
+    // Плавная прокрутка для всех внутренних ссылок
+    smoothScrollForInternalLinks();
+}
+
+/**
+ * Подсветка активной ссылки навигации на основании текущего положения скролла
+ */
+function highlightActiveNavLink() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+    
+    function setActiveLink() {
+        let currentSection = '';
+        const scrollPosition = window.scrollY + 100; // Небольшой отступ для лучшего UX
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                currentSection = '#' + section.getAttribute('id');
+            }
+        });
+        
+        // Удаляем активный класс со всех ссылок
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === currentSection) {
+                link.classList.add('active');
+            }
+        });
+    }
+    
+    window.addEventListener('scroll', setActiveLink, {passive: true});
+    setActiveLink(); // Устанавливаем активную ссылку при загрузке
+}
+
+/**
+ * Плавная прокрутка для внутренних ссылок с # без использования scroll-behavior: smooth 
+ * (для лучшей поддержки браузеров)
+ */
+function smoothScrollForInternalLinks() {
+    const internalLinks = document.querySelectorAll('a[href^="#"]:not([href="#"])');
+    
+    internalLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                const headerOffset = 70; // Компенсация высоты шапки
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
 }
 
 // Экспорт функций для тестирования
