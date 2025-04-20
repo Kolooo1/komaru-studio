@@ -88,6 +88,8 @@
                 <h1 class="section-title" data-lang="posts-title">Публикации команды</h1>
                 <div id="author-controls" class="author-controls" style="display: none;">
                     <a href="edit-post.html" class="btn btn-primary" data-lang="new-post">Новая публикация</a>
+                    <button id="reset-permanent-post" class="btn btn-secondary" style="margin-left: 10px;">Обновить постоянную публикацию</button>
+                    <button id="clear-all-posts" class="btn btn-danger" style="margin-left: 10px;">Сбросить все публикации</button>
                 </div>
             </div>
             
@@ -157,6 +159,48 @@
                     document.documentElement.classList.remove('dark-theme');
                     document.documentElement.classList.add('light-theme');
                     localStorage.setItem('portfolio-theme', 'light');
+                }
+            });
+        }
+        
+        // Обработчик для кнопки обновления постоянной публикации
+        const resetPermanentPostBtn = document.getElementById('reset-permanent-post');
+        if (resetPermanentPostBtn) {
+            resetPermanentPostBtn.addEventListener('click', function() {
+                if (window.PostManager && typeof window.PostManager.resetPostData === 'function') {
+                    if (window.PostManager.resetPostData()) {
+                        // Обновляем список публикаций
+                        loadPosts();
+                        
+                        // Показываем уведомление
+                        if (window.Notifications) {
+                            window.Notifications.success('Постоянная публикация обновлена из кода');
+                        } else {
+                            alert('Постоянная публикация обновлена из кода');
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Обработчик для кнопки сброса всех публикаций
+        const clearAllPostsBtn = document.getElementById('clear-all-posts');
+        if (clearAllPostsBtn) {
+            clearAllPostsBtn.addEventListener('click', function() {
+                if (confirm('Вы уверены, что хотите сбросить все публикации? Это действие нельзя отменить.')) {
+                    if (window.PostManager && typeof window.PostManager.clearAllPosts === 'function') {
+                        if (window.PostManager.clearAllPosts()) {
+                            // Обновляем список публикаций
+                            loadPosts();
+                            
+                            // Показываем уведомление
+                            if (window.Notifications) {
+                                window.Notifications.success('Все публикации сброшены до значений по умолчанию');
+                            } else {
+                                alert('Все публикации сброшены до значений по умолчанию');
+                            }
+                        }
+                    }
                 }
             });
         }
